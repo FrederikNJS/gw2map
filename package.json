@@ -1,0 +1,13 @@
+{
+    "name": "sinatra-angular-project-template",
+    "private": true,
+    "version": "0.0.0",
+    "description": "",
+    "repository": "",
+    "license": "",
+    "devDependencies": {
+        "bower": "1.3.8",
+        "mocha": "1.18.2",
+        "requirejs": "2.1.11"
+    }
+}

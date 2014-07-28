@@ -1,0 +1,16 @@
+{
+    "name": "sinatra-angular-project-template",
+    "description": "",
+    "version": "0.0.0",
+    "homepage": "",
+    "license": "",
+    "private": true,
+    "dependencies": {
+        "requirejs": "2.1.11",
+        "requirejs-domready": "2.0.1",
+        "leaflet-0.7.3": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.3.zip",
+        "jquery": "2.1.1",
+        "q": "2.0.0",
+        "Leaflet.label": "master"
+    }
+}
