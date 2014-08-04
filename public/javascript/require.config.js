@@ -38,5 +38,13 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
         var boundaries = new leaflet.LatLngBounds(map.unproject([0, 32768], map.getMaxZoom()), map.unproject([32768, 0], map.getMaxZoom()));
         map.setView(map.unproject([32768/2, 32768/2], map.getMaxZoom()), 3);
         map.setMaxBounds(boundaries);
+
+        floor.done(function(floors) {
+            $.each(floors.regions, function(id, region) {
+                leaflet.marker(map.unproject([region.label_coord[0], region.label_coord[1]], map.getMaxZoom()), {
+                    title: region.name
+                }).addTo(map);
+            });
+        });
     });
 });
