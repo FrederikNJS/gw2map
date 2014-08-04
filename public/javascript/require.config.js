@@ -25,7 +25,8 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
                 continuousWorld: true,
                 subdomains: [1, 2, 3, 4 ],
                 floor: floor_id,
-                continent: selectedContinent
+                continent: selectedContinent,
+                detectRetina: true
             });
         });
 
