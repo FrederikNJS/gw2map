@@ -1,9 +1,11 @@
 #!/bin/bash
 
 #Update system
+curl -sL https://deb.nodesource.com/setup | sudo bash -
 apt-get update
 apt-get dist-upgrade -y
 apt-get autoremove -y
+apt-get install -y nodejs
 
 #Install rvm
 \curl -sSL https://get.rvm.io | bash -s stable
@@ -20,6 +22,9 @@ rvm install 2.1.2
 #Install bundler
 gem install bundler
 
+#Install bower
+npm install -g bower
+
 #Switch to vagrant user
 su - vagrant
 
@@ -28,3 +33,6 @@ cd /vagrant
 
 #Install ruby gems
 bundle
+
+npm install
+bower install
