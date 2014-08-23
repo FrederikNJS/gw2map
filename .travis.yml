@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+- 2.0.0
+- 1.9.3
+- jruby-19mode
+- rbx-2
+deploy:
+  provider: heroku
+  api_key:
+    secure: BlxWLNXWivZr6EEqrisG9zOYs73FBw3/vD0XZfn/vOOErSUpPRumaUZTuL/MBmRGIjf9yxVKObt/n/gCDPMRyh+5teQx8x4uWFR5wXc1vogte58/VOlzToSt92P/8Al9HSuB21EowuxWm2KPVnl5JAjlAtAc8NK9rT88Fz0R0bA=
+  app: gw2map
+  on:
+    repo: FrederikNS/gw2map

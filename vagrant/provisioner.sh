@@ -5,7 +5,7 @@ curl -sL https://deb.nodesource.com/setup | sudo bash -
 apt-get update
 apt-get dist-upgrade -y
 apt-get autoremove -y
-apt-get install -y nodejs
+apt-get install -y nodejs git git-core
 
 #Install rvm
 \curl -sSL https://get.rvm.io | bash -s stable
@@ -21,6 +21,7 @@ rvm install 2.1.2
 
 #Install bundler
 gem install bundler
+gem install travis -v 1.7.1 --no-rdoc --no-ri
 
 #Install bower
 npm install -g bower
