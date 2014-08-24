@@ -63,7 +63,7 @@
                             }).addTo(overlayLayers['zones']);
 
                             $.each(zone.sectors, function(index, sector) {
-                                var icon = L.divIcon({html:sector.name + ' (' + sector.level + ')', iconSize: L.point(75, 10)});
+                                var icon = L.divIcon({html:sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')'), iconSize: L.point(75, 10)});
                                 L.marker(map.unproject([sector.coord[0], sector.coord[1]], map.getMaxZoom()), {
                                     title: sector.name + ' (' + sector.level + ')',
                                     icon: icon
