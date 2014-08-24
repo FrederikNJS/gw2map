@@ -4,7 +4,7 @@
     var continents = $.getJSON('https://api.guildwars2.com/v1/continents.json');
     var floor = $.getJSON('https://api.guildwars2.com/v1/map_floor.json?continent_id=1&floor=1');
     var realMaps = [15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 35, 39, 50, 51, 53, 54, 62,
-        65, 73, 91, 139, 326, 873, 988];
+        65, 73, 91, 139, 218, 326, 873, 988];
     //var falseMaps = [33, 38, 63, 66, 67, 70, 75, 81, 94, 95, 96, 111, 112, 211, 336, 350, 536, 549, 554, 698, 776, 795, 807, 864, 865, 872, 875, 877, 894, 897, 900, 918, 919, 929, 935, 936, 940, 955, 956, 957, 968, 984];
 
     continents.done(function(continents) {
