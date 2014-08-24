@@ -36,6 +36,7 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
         var overlayLayers = {};
         overlayLayers['regions'] = leaflet.layerGroup();
         overlayLayers['zones'] = leaflet.layerGroup();
+        overlayLayers['sectors'] = leaflet.layerGroup();
 
         var map = leaflet.map('map', {
             crs: leaflet.CRS.Simple,
@@ -54,24 +55,27 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
                 leaflet.marker(map.unproject([region.label_coord[0], region.label_coord[1]], map.getMaxZoom()), {
                     title: region.name
                 }).bindPopup(region.name).addTo(overlayLayers['regions']);
+
+                var already_drawn = {};
+                $.each(region.maps, function(id, zone) {
+                    var xCoord = (zone.continent_rect[0][0]+zone.continent_rect[1][0]) / 2;
+                    var yCoord = (zone.continent_rect[0][1]+zone.continent_rect[1][1]) / 2;
+                    if(!already_drawn[xCoord+","+yCoord]) {
+                        already_drawn[xCoord+","+yCoord] = true;
+                        if(realMaps.indexOf(parseInt(id)) !== -1) {
+                            leaflet.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
+                                title: zone.name
+                            }).bindPopup(zone.name).addTo(overlayLayers['zones']);
+
+                            $.each(zone.sectors, function(index, sector) {
+                                leaflet.marker(map.unproject([sector.coord[0], sector.coord[1]], map.getMaxZoom()), {
+                                    title: sector.name + " (" + sector.level + ")"
+                                }).bindPopup(sector.name + " (" + sector.level + ")").addTo(overlayLayers['sectors']);
+                            });
+                        }
+                    }
+                });
             });
         });
-
-        //Draw Zones
-        map_parts.done(function(map_parts) {
-            var already_drawn = {};
-            $.each(map_parts.maps, function(id, map_part) {
-                var xCoord = (map_part.continent_rect[0][0]+map_part.continent_rect[1][0]) / 2;
-                var yCoord = (map_part.continent_rect[0][1]+map_part.continent_rect[1][1]) / 2;
-                if(!already_drawn[xCoord+","+yCoord]) {
-                    already_drawn[xCoord+","+yCoord] = true;
-                    if(realMaps.indexOf(parseInt(id)) !== -1) {
-                        leaflet.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
-                            title: map_part.map_name + ", " + id
-                        }).bindPopup(map_part.map_name + ", " + id).addTo(overlayLayers['zones']);
-                    }
-                }
-            });
-        })
     });
 });
