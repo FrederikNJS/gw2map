@@ -67,8 +67,7 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
                     already_drawn[xCoord+","+yCoord] = true;
                     if(realMaps.indexOf(parseInt(id)) !== -1) {
                         leaflet.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
-                            title: map_part.map_name + ", " + id,
-                            draggable: true
+                            title: map_part.map_name + ", " + idtrue
                         }).bindPopup(map_part.map_name + ", " + id).addTo(overlayLayers['zones']);
                     }
                 }
