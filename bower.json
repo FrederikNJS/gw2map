@@ -7,7 +7,6 @@
     "private": true,
     "dependencies": {
         "leaflet-0.7.3": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.3.zip",
-        "jquery": "2.1.1",
-        "Leaflet.label": "master"
+        "jquery": "2.1.1"
     }
 }
