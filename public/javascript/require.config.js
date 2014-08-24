@@ -1,12 +1,4 @@
-requirejs.config({
-    paths: {
-        leaflet: "/bower_components/leaflet-0.7.3/leaflet",
-        jquery: "/bower_components/jquery/dist/jquery.min",
-        q: "/bower_components/q/q"
-    }
-});
-
-require(['leaflet', 'jquery'], function(leaflet, $) {
+(function(){
     "use strict";
     var attribution = "© 2014 ArenaNet, LLC. All rights reserved. NCSOFT, the interlocking NC logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners.";
     var continents = $.getJSON("https://api.guildwars2.com/v1/continents.json");
@@ -22,7 +14,7 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
         //continents.continents[selectedContinent].floors
         var baseLayers = {};
         [0,1,2,3].forEach(function(floor_id) {
-            baseLayers[floor_id] = leaflet.tileLayer('https://tiles{s}.guildwars2.com/{continent}/{floor}/{z}/{x}/{y}.jpg', {
+            baseLayers[floor_id] = L.tileLayer('https://tiles{s}.guildwars2.com/{continent}/{floor}/{z}/{x}/{y}.jpg', {
                 attribution: attribution,
                 minZoom: 2,
                 maxZoom: 7,
@@ -34,25 +26,25 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
             });
         });
         var overlayLayers = {};
-        overlayLayers['regions'] = leaflet.layerGroup();
-        overlayLayers['zones'] = leaflet.layerGroup();
-        overlayLayers['sectors'] = leaflet.layerGroup();
+        overlayLayers['regions'] = L.layerGroup();
+        overlayLayers['zones'] = L.layerGroup();
+        overlayLayers['sectors'] = L.layerGroup();
 
-        var map = leaflet.map('map', {
-            crs: leaflet.CRS.Simple,
+        var map = L.map('map', {
+            crs: L.CRS.Simple,
             layers: [baseLayers[startFloor]]
         });
 
 
-        leaflet.control.layers(baseLayers, overlayLayers).addTo(map);
-        var boundaries = new leaflet.LatLngBounds(map.unproject([0, 32768], map.getMaxZoom()), map.unproject([32768, 0], map.getMaxZoom()));
+        L.control.layers(baseLayers, overlayLayers).addTo(map);
+        var boundaries = new L.LatLngBounds(map.unproject([0, 32768], map.getMaxZoom()), map.unproject([32768, 0], map.getMaxZoom()));
         map.setView(map.unproject([32768/2, 32768/2], map.getMaxZoom()), 3);
         map.setMaxBounds(boundaries);
 
         //Draw Regions
         floor.done(function(floors) {
             $.each(floors.regions, function(id, region) {
-                leaflet.marker(map.unproject([region.label_coord[0], region.label_coord[1]], map.getMaxZoom()), {
+                L.marker(map.unproject([region.label_coord[0], region.label_coord[1]], map.getMaxZoom()), {
                     title: region.name
                 }).bindPopup(region.name).addTo(overlayLayers['regions']);
 
@@ -63,12 +55,12 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
                     if(!already_drawn[xCoord+","+yCoord]) {
                         already_drawn[xCoord+","+yCoord] = true;
                         if(realMaps.indexOf(parseInt(id)) !== -1) {
-                            leaflet.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
+                            L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
                                 title: zone.name
                             }).bindPopup(zone.name).addTo(overlayLayers['zones']);
 
                             $.each(zone.sectors, function(index, sector) {
-                                leaflet.marker(map.unproject([sector.coord[0], sector.coord[1]], map.getMaxZoom()), {
+                                L.marker(map.unproject([sector.coord[0], sector.coord[1]], map.getMaxZoom()), {
                                     title: sector.name + " (" + sector.level + ")"
                                 }).bindPopup(sector.name + " (" + sector.level + ")").addTo(overlayLayers['sectors']);
                             });
@@ -78,4 +70,4 @@ require(['leaflet', 'jquery'], function(leaflet, $) {
             });
         });
     });
-});
+})();

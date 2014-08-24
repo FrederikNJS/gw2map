@@ -1,0 +1,13 @@
+{
+  "name": "Leaflet.label",
+  "homepage": "https://github.com/Leaflet/Leaflet.label",
+  "_release": "eaccc89c98",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "eaccc89c98d8d78e128b3af6b8c44bbca4e510ce"
+  },
+  "_source": "git://github.com/Leaflet/Leaflet.label.git",
+  "_target": "master",
+  "_originalSource": "Leaflet.label"
+}
