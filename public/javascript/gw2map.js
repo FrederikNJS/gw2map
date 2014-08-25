@@ -55,13 +55,13 @@
                     if(!already_drawn[xCoord+","+yCoord]) {
                         already_drawn[xCoord+","+yCoord] = true;
                         if(realMaps.indexOf(parseInt(id)) !== -1) {
-                            var icon = L.divIcon({html:zone.name, iconSize: L.point(75, 10)});
+                            var icon = L.divIcon({html:zone.name + (zone.min_level === 0 ? '' : ' (' + zone.min_level + '-' + zone.max_level + ')'), iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
                             L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
                                 icon: icon
                             }).addTo(overlayLayers['zones']);
 
                             $.each(zone.sectors, function(index, sector) {
-                                var icon = L.divIcon({html:sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')'), iconSize: L.point(75, 10)});
+                                var icon = L.divIcon({html:sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')'), iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
                                 L.marker(map.unproject([sector.coord[0], sector.coord[1]], map.getMaxZoom()), {
                                     icon: icon
                                 }).addTo(overlayLayers['sectors']);
