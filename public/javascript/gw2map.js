@@ -45,7 +45,6 @@
             $.each(floors.regions, function(id, region) {
                 var icon = L.divIcon({html:region.name, iconSize: L.point(75, 10)});
                 L.marker(map.unproject([region.label_coord[0], region.label_coord[1]], map.getMaxZoom()), {
-                    title: region.name,
                     icon: icon
                 }).addTo(overlayLayers['regions']);
 
@@ -58,14 +57,12 @@
                         if(realMaps.indexOf(parseInt(id)) !== -1) {
                             var icon = L.divIcon({html:zone.name, iconSize: L.point(75, 10)});
                             L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
-                                title: zone.name,
                                 icon: icon
                             }).addTo(overlayLayers['zones']);
 
                             $.each(zone.sectors, function(index, sector) {
                                 var icon = L.divIcon({html:sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')'), iconSize: L.point(75, 10)});
                                 L.marker(map.unproject([sector.coord[0], sector.coord[1]], map.getMaxZoom()), {
-                                    title: sector.name + ' (' + sector.level + ')',
                                     icon: icon
                                 }).addTo(overlayLayers['sectors']);
                             });
