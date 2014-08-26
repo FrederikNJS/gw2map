@@ -2,11 +2,10 @@
     "use strict";
     var attribution = '© 2014 ArenaNet, LLC. All rights reserved. NCSOFT, the interlocking NC logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners.';
     var continents = $.getJSON('https://api.guildwars2.com/v1/continents.json');
-    var floor = $.getJSON('https://api.guildwars2.com/v1/map_floor.json?continent_id=1&floor=1');
+    var floor = $.getJSON('https://api.guildwars2.com/v1/map_floor.json?continent_id=1&floor=0');
     var files = $.getJSON('https://api.guildwars2.com/v1/files.json');
-    var realMaps = [15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 34, 35, 39, 50, 51, 53, 54, 62,
-        65, 73, 91, 139, 218, 326, 873, 988];
-    //var falseMaps = [33, 38, 63, 66, 67, 70, 75, 81, 94, 95, 96, 111, 112, 211, 336, 350, 536, 549, 554, 698, 776, 795, 807, 864, 865, 872, 875, 877, 894, 897, 900, 918, 919, 929, 935, 936, 940, 955, 956, 957, 968, 984];
+    var falseMaps = [589, 711, 905, 1005];
+    var falseDungeons = [1935, 1936, 1822, 1938, 1937];
 
     continents.done(function(continents) {
         var selectedContinent = 1;
@@ -81,26 +80,24 @@
                         icon: icon
                     }).addTo(overlayLayers['regions']);
 
-                    var already_drawn = {};
                     $.each(region.maps, function(id, zone) {
-                        var xCoord = (zone.continent_rect[0][0]+zone.continent_rect[1][0]) / 2;
-                        var yCoord = (zone.continent_rect[0][1]+zone.continent_rect[1][1]) / 2;
-                        if(!already_drawn[xCoord+","+yCoord]) {
-                            already_drawn[xCoord+","+yCoord] = true;
-                            if(realMaps.indexOf(parseInt(id)) !== -1) {
-                                var icon = L.divIcon({html:zone.name + (zone.min_level === 0 ? '' : ' (' + zone.min_level + '-' + zone.max_level + ')'), iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
-                                L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
+                        if(falseMaps.indexOf(parseInt(id)) === -1) {
+                            var xCoord = (zone.continent_rect[0][0]+zone.continent_rect[1][0]) / 2;
+                            var yCoord = (zone.continent_rect[0][1]+zone.continent_rect[1][1]) / 2;
+                            var icon = L.divIcon({html:zone.name + (zone.min_level === 0 ? '' : ' (' + zone.min_level + '-' + zone.max_level + ')'), iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
+                            L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
+                                icon: icon
+                            }).addTo(overlayLayers['zones']);
+
+                            $.each(zone.sectors, function(index, sector) {
+                                var icon = L.divIcon({html:sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')'), iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
+                                L.marker(map.unproject(sector.coord, map.getMaxZoom()), {
                                     icon: icon
-                                }).addTo(overlayLayers['zones']);
+                                }).addTo(overlayLayers['sectors']);
+                            });
 
-                                $.each(zone.sectors, function(index, sector) {
-                                    var icon = L.divIcon({html:sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')'), iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
-                                    L.marker(map.unproject(sector.coord, map.getMaxZoom()), {
-                                        icon: icon
-                                    }).addTo(overlayLayers['sectors']);
-                                });
-
-                                $.each(zone.points_of_interest, function(index, point_of_interest) {
+                            $.each(zone.points_of_interest, function(index, point_of_interest) {
+                                if(falseDungeons.indexOf(point_of_interest.poi_id) === -1) {
                                     var icon;
                                     var addTo;
                                     switch(point_of_interest.type) {
@@ -128,20 +125,20 @@
                                     L.marker(map.unproject(point_of_interest.coord, map.getMaxZoom()), {
                                         icon: icon
                                     }).bindPopup(point_of_interest.name).addTo(addTo);
-                                });
+                                }
+                            });
 
-                                $.each(zone.tasks, function(index, task) {
-                                    L.marker(map.unproject(task.coord, map.getMaxZoom()), {
-                                        icon: heartIcon
-                                    }).bindPopup(task.objective + ' (' + task.level + ')').addTo(overlayLayers['tasks']);
-                                });
+                            $.each(zone.tasks, function(index, task) {
+                                L.marker(map.unproject(task.coord, map.getMaxZoom()), {
+                                    icon: heartIcon
+                                }).bindPopup(task.objective + ' (' + task.level + ')').addTo(overlayLayers['tasks']);
+                            });
 
-                                $.each(zone.skill_challenges, function(index, skill_challenge) {
-                                    L.marker(map.unproject(skill_challenge.coord, map.getMaxZoom()), {
-                                        icon: skillIcon
-                                    }).addTo(overlayLayers['tasks']);
-                                });
-                            }
+                            $.each(zone.skill_challenges, function(index, skill_challenge) {
+                                L.marker(map.unproject(skill_challenge.coord, map.getMaxZoom()), {
+                                    icon: skillIcon
+                                }).addTo(overlayLayers['skill challenges']);
+                            });
                         }
                     });
                 });
