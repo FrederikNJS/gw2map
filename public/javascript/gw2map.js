@@ -4,8 +4,8 @@
     var continents = $.getJSON('https://api.guildwars2.com/v1/continents.json');
     var floor = $.getJSON('https://api.guildwars2.com/v1/map_floor.json?continent_id=1&floor=0');
     var files = $.getJSON('https://api.guildwars2.com/v1/files.json');
-    var falseMaps = [589, 711, 905, 1005];
-    var falseDungeons = [1935, 1936, 1822, 1938, 1937];
+    var falseMaps = [589, 711, 807, 905, 1005];
+    var falseDungeons = [1822, 1935, 1936, 1937, 1938];
 
     continents.done(function(continents) {
         var selectedContinent = 1;
