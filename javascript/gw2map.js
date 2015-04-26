@@ -73,6 +73,9 @@
                 iconSize: [24, 24]
             });
 
+            var mapGradient = new Rainbow();
+            mapGradient.setSpectrum('00ff00', 'yellow', 'red');
+
             floor.done(function(floors) {
                 $.each(floors.regions, function(id, region) {
                     var icon = L.divIcon({html:region.name, iconSize: L.point(75, 10)});
@@ -84,13 +87,17 @@
                         if(falseMaps.indexOf(parseInt(id)) === -1) {
                             var xCoord = (zone.continent_rect[0][0]+zone.continent_rect[1][0]) / 2;
                             var yCoord = (zone.continent_rect[0][1]+zone.continent_rect[1][1]) / 2;
-                            var icon = L.divIcon({html:zone.name + (zone.min_level === 0 ? '' : ' (' + zone.min_level + '-' + zone.max_level + ')'), iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
+                            var mapText = zone.name + (zone.min_level === 0 ? '' : ' (' + zone.min_level + '-' + zone.max_level + ')');
+                            mapGradient.setNumberRange(0, 80);
+                            var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(zone.min_level) + ';">' + mapText + '</span>', iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
                             L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
                                 icon: icon
                             }).addTo(overlayLayers['zones']);
 
                             $.each(zone.sectors, function(index, sector) {
-                                var icon = L.divIcon({html:sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')'), iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
+                                mapGradient.setNumberRange(zone.min_level == zone.max_level ? zone.min_level - 1 : zone.min_level, zone.max_level);
+                                var sectorText = sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')');
+                                var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(sector.level) + ';">' + sectorText + '</span>', iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
                                 L.marker(map.unproject(sector.coord, map.getMaxZoom()), {
                                     icon: icon
                                 }).addTo(overlayLayers['sectors']);
