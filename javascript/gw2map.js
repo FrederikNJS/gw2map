@@ -89,7 +89,7 @@
                             var yCoord = (zone.continent_rect[0][1]+zone.continent_rect[1][1]) / 2;
                             var mapText = zone.name + (zone.min_level === 0 ? '' : ' (' + zone.min_level + '-' + zone.max_level + ')');
                             mapGradient.setNumberRange(0, 80);
-                            var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(zone.min_level) + ';">' + mapText + '</span>', iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
+                            var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(zone.min_level == 0 ? 0 : (zone.max_level + zone.max_level) / 2) + ';">' + mapText + '</span>', iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
                             L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
                                 icon: icon
                             }).addTo(overlayLayers['zones']);

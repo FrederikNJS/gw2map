@@ -6,7 +6,7 @@
     "license": "",
     "private": true,
     "dependencies": {
-        "leaflet-0.7.3": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.3.zip",
+        "leaflet": "0.7.3",
         "jquery": "2.1.1"
     }
 }
