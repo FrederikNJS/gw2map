@@ -1,6 +1,6 @@
 (function(){
     "use strict";
-    var attribution = '© 2014 ArenaNet, LLC. All rights reserved. NCSOFT, the interlocking NC logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners.';
+    var attribution = 'The source-code for this map is released under the AGPL 3.0 License, the assets for the map, including the map tiles, icons and labels are copyright of "2014 ArenaNet, LLC. All rights reserved. NCSOFT, the interlocking NC logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation."';
     var continents = $.getJSON('https://api.guildwars2.com/v1/continents.json');
     var floor = $.getJSON('https://api.guildwars2.com/v1/map_floor.json?continent_id=1&floor=0');
     var files = $.getJSON('https://api.guildwars2.com/v1/files.json');
@@ -10,7 +10,6 @@
     continents.done(function(continents) {
         var selectedContinent = 1;
         var startFloor = 0;
-        //continents.continents[selectedContinent].floors
         var baseLayers = {};
         [0,1,2,3].forEach(function(floor_id) {
             baseLayers[floor_id] = L.tileLayer('https://tiles{s}.guildwars2.com/{continent}/{floor}/{z}/{x}/{y}.jpg', {
@@ -39,7 +38,6 @@
             crs: L.CRS.Simple,
             layers: [baseLayers[startFloor]]
         });
-
 
         L.control.layers(baseLayers, overlayLayers).addTo(map);
         var boundaries = new L.LatLngBounds(map.unproject([0, 32768], map.getMaxZoom()), map.unproject([32768, 0], map.getMaxZoom()));
