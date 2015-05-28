@@ -19,8 +19,8 @@
                 continuousWorld: true,
                 subdomains: [1, 2, 3, 4 ],
                 floor: floor_id,
-                continent: selectedContinent,
-                detectRetina: true
+                continent: selectedContinent
+                //detectRetina: true
             });
         });
         var overlayLayers = {};
