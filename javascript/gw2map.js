@@ -1,6 +1,6 @@
 (function(){
     "use strict";
-    var attribution = '<a href="#" data-toggle="modal" data-target="#myModal">Copyright Notice</a>';
+    var attribution = '<a href="#" data-toggle="modal" data-target="#copyrightModal">Copyright Notice</a>';
     var continents = $.getJSON('https://api.guildwars2.com/v1/continents.json');
     var floor = $.getJSON('https://api.guildwars2.com/v1/map_floor.json?continent_id=1&floor=0');
     var files = $.getJSON('https://api.guildwars2.com/v1/files.json');
