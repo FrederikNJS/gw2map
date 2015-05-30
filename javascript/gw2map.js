@@ -9,7 +9,7 @@
 
     continents.done(function(continents) {
         var selectedContinent = 1;
-        var startFloor = 0;
+        var startFloor = 2;
         var baseLayers = {};
         var layerFix = {0: 1, 1: 2, 2: 3, 3: 0};
         [0,1,2,3].forEach(function(floor_id) {
