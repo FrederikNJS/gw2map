@@ -25,15 +25,14 @@
             });
         });
         var overlayLayers = {};
-        overlayLayers['regions'] = L.layerGroup();
-        overlayLayers['zones'] = L.layerGroup();
-        overlayLayers['sectors'] = L.layerGroup();
-        overlayLayers['points of interest'] = L.layerGroup();
-        overlayLayers['tasks'] = L.layerGroup();
-        overlayLayers['skill challenges'] = L.layerGroup();
-        overlayLayers['waypoints'] = L.layerGroup();
-        overlayLayers['vistas'] = L.layerGroup();
-        overlayLayers['dungeons'] = L.layerGroup();
+        overlayLayers['Regions'] = L.layerGroup();
+        overlayLayers['Zones'] = L.layerGroup();
+        overlayLayers['Sectors'] = L.layerGroup();
+        overlayLayers['Points of Interest'] = L.layerGroup();
+        overlayLayers['Skill Challenges'] = L.layerGroup();
+        overlayLayers['Waypoints'] = L.layerGroup();
+        overlayLayers['Vistas'] = L.layerGroup();
+        overlayLayers['Dungeons'] = L.layerGroup();
 
         var map = L.map('map', {
             crs: L.CRS.Simple,
@@ -80,7 +79,7 @@
                     var icon = L.divIcon({html:region.name, iconSize: L.point(75, 10)});
                     L.marker(map.unproject(region.label_coord, map.getMaxZoom()), {
                         icon: icon
-                    }).addTo(overlayLayers['regions']);
+                    }).addTo(overlayLayers['Regions']);
 
                     $.each(region.maps, function(id, zone) {
                         if(falseMaps.indexOf(parseInt(id)) === -1) {
@@ -91,7 +90,7 @@
                             var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(zone.min_level == 0 ? 0 : (zone.max_level + zone.max_level) / 2) + ';">' + mapText + '</span>', iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
                             L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
                                 icon: icon
-                            }).addTo(overlayLayers['zones']);
+                            }).addTo(overlayLayers['Zones']);
 
                             $.each(zone.sectors, function(index, sector) {
                                 mapGradient.setNumberRange(zone.min_level == zone.max_level ? zone.min_level - 1 : zone.min_level, zone.max_level);
@@ -99,7 +98,7 @@
                                 var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(sector.level) + ';">' + sectorText + '</span>', iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
                                 L.marker(map.unproject(sector.coord, map.getMaxZoom()), {
                                     icon: icon
-                                }).addTo(overlayLayers['sectors']);
+                                }).addTo(overlayLayers['Sectors']);
                             });
 
                             $.each(zone.points_of_interest, function(index, point_of_interest) {
@@ -109,23 +108,23 @@
                                     switch(point_of_interest.type) {
                                         case 'waypoint':
                                             icon = waypointIcon;
-                                            addTo = overlayLayers['waypoints'];
+                                            addTo = overlayLayers['Waypoints'];
                                             break;
                                         case 'vista':
                                             icon = vistaIcon;
-                                            addTo = overlayLayers['vistas'];
+                                            addTo = overlayLayers['Vistas'];
                                             break;
                                         case 'unlock':
                                             icon = dungeonIcon;
-                                            addTo = overlayLayers['dungeons'];
+                                            addTo = overlayLayers['Dungeons'];
                                             break;
                                         case 'landmark':
                                             icon = poiIcon;
-                                            addTo = overlayLayers['points of interest'];
+                                            addTo = overlayLayers['Points of Interest'];
                                             break;
                                         default:
                                             icon = poiIcon;
-                                            addTo = overlayLayers['points of interest'];
+                                            addTo = overlayLayers['Points of Interest'];
                                             break;
                                     }
                                     L.marker(map.unproject(point_of_interest.coord, map.getMaxZoom()), {
@@ -137,35 +136,34 @@
                             $.each(zone.tasks, function(index, task) {
                                 L.marker(map.unproject(task.coord, map.getMaxZoom()), {
                                     icon: heartIcon
-                                }).bindPopup(task.objective + ' (' + task.level + ')').addTo(overlayLayers['tasks']);
                             });
 
                             $.each(zone.skill_challenges, function(index, skill_challenge) {
                                 L.marker(map.unproject(skill_challenge.coord, map.getMaxZoom()), {
                                     icon: skillIcon
-                                }).addTo(overlayLayers['skill challenges']);
+                                }).addTo(overlayLayers['Skill Challenges']);
                             });
                         }
                     });
                 });
-                map.addLayer(overlayLayers['zones']);
+                map.addLayer(overlayLayers['Zones']);
 
                 map.on('zoomend', function() {
                     console.log(map.getZoom());
                     var zoom = map.getZoom();
-                    if(map.hasLayer(overlayLayers['regions']) || map.hasLayer(overlayLayers['zones']) || map.hasLayer(overlayLayers['sectors'])) {
+                    if(map.hasLayer(overlayLayers['Regions']) || map.hasLayer(overlayLayers['Zones']) || map.hasLayer(overlayLayers['Sectors'])) {
                         if(zoom === 2) {
-                            map.addLayer(overlayLayers['regions']);
-                            map.removeLayer(overlayLayers['zones']);
-                            map.removeLayer(overlayLayers['sectors']);
+                            map.addLayer(overlayLayers['Regions']);
+                            map.removeLayer(overlayLayers['Zones']);
+                            map.removeLayer(overlayLayers['Sectors']);
                         } else if(zoom >= 3 && zoom <= 4) {
-                            map.removeLayer(overlayLayers['regions']);
-                            map.addLayer(overlayLayers['zones']);
-                            map.removeLayer(overlayLayers['sectors']);
+                            map.removeLayer(overlayLayers['Regions']);
+                            map.addLayer(overlayLayers['Zones']);
+                            map.removeLayer(overlayLayers['Sectors']);
                         } else if(zoom >= 5) {
-                            map.removeLayer(overlayLayers['regions']);
-                            map.removeLayer(overlayLayers['zones']);
-                            map.addLayer(overlayLayers['sectors']);
+                            map.removeLayer(overlayLayers['Regions']);
+                            map.removeLayer(overlayLayers['Zones']);
+                            map.addLayer(overlayLayers['Sectors']);
                         }
                     }
                 });
