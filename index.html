@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>MAP!</title>
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="stylesheet/main.css" />
     <style>
         div.leaflet-div-icon {
@@ -28,6 +29,7 @@
         ga('send', 'pageview');
     </script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/leaflet/dist/leaflet.js"></script>
     <script src="vendor/rainbowviz-js/rainbowvis.js"></script>
 
@@ -35,6 +37,24 @@
 </head>
 <body>
     <div id="map"></div>
-    
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as open source under <a href="http://frederikns.github.io/gw2map/LICENSE.txt">the AGPL 3.0 license.</a></p>
+                    <p>The graphical assets of the map and icons as well as the data is property of ArenaNet and subject to the following copyright:</p>
+                    <p>"© 2014 ArenaNet, LLC. All rights reserved. NCSOFT, the interlocking NC logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners."</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
