@@ -29,6 +29,7 @@
         overlayLayers['Zones'] = L.layerGroup();
         overlayLayers['Sectors'] = L.layerGroup();
         overlayLayers['Points of Interest'] = L.layerGroup();
+        overlayLayers['Hearts'] = L.layerGroup();
         overlayLayers['Skill Challenges'] = L.layerGroup();
         overlayLayers['Waypoints'] = L.layerGroup();
         overlayLayers['Vistas'] = L.layerGroup();
@@ -136,6 +137,7 @@
                             $.each(zone.tasks, function(index, task) {
                                 L.marker(map.unproject(task.coord, map.getMaxZoom()), {
                                     icon: heartIcon
+                                }).bindPopup(task.objective + ' (' + task.level + ')').addTo(overlayLayers['Hearts']);
                             });
 
                             $.each(zone.skill_challenges, function(index, skill_challenge) {
