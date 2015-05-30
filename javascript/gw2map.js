@@ -9,9 +9,9 @@
 
     continents.done(function(continents) {
         var selectedContinent = 1;
-        var startFloor = 2;
+        var startFloor = 'Surface';
         var baseLayers = {};
-        var layerFix = {0: 1, 1: 2, 2: 3, 3: 0};
+        var layerFix = {0: 'Underground', 1: 'Surface', 2: 'Upper Level', 3: 'Depths'};
         [0,1,2,3].forEach(function(floor_id) {
             baseLayers[layerFix[floor_id]] = L.tileLayer('https://tiles{s}.guildwars2.com/{continent}/{floor}/{z}/{x}/{y}.jpg', {
                 attribution: attribution,
@@ -151,7 +151,6 @@
                 map.addLayer(overlayLayers['Zones']);
 
                 map.on('zoomend', function() {
-                    console.log(map.getZoom());
                     var zoom = map.getZoom();
                     if(map.hasLayer(overlayLayers['Regions']) || map.hasLayer(overlayLayers['Zones']) || map.hasLayer(overlayLayers['Sectors'])) {
                         if(zoom === 2) {
