@@ -11,7 +11,7 @@
         var selectedContinent = 1;
         var startFloor = 0;
         var baseLayers = {};
-        var layerFix = {0: 1, 1: 2, 2: 3, 3: 0}
+        var layerFix = {0: 1, 1: 2, 2: 3, 3: 0};
         [0,1,2,3].forEach(function(floor_id) {
             baseLayers[layerFix[floor_id]] = L.tileLayer('https://tiles{s}.guildwars2.com/{continent}/{floor}/{z}/{x}/{y}.jpg', {
                 attribution: attribution,
