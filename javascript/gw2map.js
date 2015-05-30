@@ -1,14 +1,13 @@
 (function(){
     "use strict";
     var attribution = '<a href="#" data-toggle="modal" data-target="#copyrightModal">Copyright Notice</a>';
-    var continents = $.getJSON('https://api.guildwars2.com/v1/continents.json');
-    var floor = $.getJSON('https://api.guildwars2.com/v1/map_floor.json?continent_id=1&floor=0');
+    var continent = $.getJSON('https://api.guildwars2.com/v2/continents/1');
+    var floor = $.getJSON('https://api.guildwars2.com/v2/continents/1/floors/0');
     var files = $.getJSON('https://api.guildwars2.com/v1/files.json');
     var falseMaps = [589, 711, 807, 905, 1005];
     var falseDungeons = [1822, 1935, 1936, 1937, 1938];
 
-    continents.done(function(continents) {
-        var selectedContinent = 1;
+    continent.done(function(continent) {
         var startFloor = 'Surface';
         var baseLayers = {};
         var layerFix = {0: 'Underground', 1: 'Surface', 2: 'Upper Level', 3: 'Depths'};
@@ -20,7 +19,7 @@
                 continuousWorld: true,
                 subdomains: [1, 2, 3, 4 ],
                 floor: floor_id,
-                continent: selectedContinent
+                continent: continent.id
                 //detectRetina: true
             });
         });
