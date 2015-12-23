@@ -1,173 +1,189 @@
-(function(){
+(function () {
     "use strict";
-    var attribution = '<a href="#" data-toggle="modal" data-target="#copyrightModal">Copyright Notice</a>';
-    var continent = $.getJSON('https://api.guildwars2.com/v2/continents/1');
-    var floor = $.getJSON('https://api.guildwars2.com/v2/continents/1/floors/0');
-    var files = $.getJSON('https://api.guildwars2.com/v1/files.json');
-    var falseMaps = [589, 711, 807, 905, 1005];
-    var falseDungeons = [1822, 1935, 1936, 1937, 1938];
+    var attribution = new ol.Attribution({
+        html: '<p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as ' +
+            'open source under <a href="http://frederikns.github.io/gw2map/LICENSE.txt">the AGPL 3.0 license.</a></p>' +
+            '<p>The graphical assets of the map and icons as well as the data is property of ArenaNet and subject to ' +
+            'the following copyright:</p><p>"© 2014 ArenaNet, LLC. All rights reserved. NCSOFT, the interlocking NC l' +
+            'ogo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guil' +
+            'd Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corpora' +
+            'tion. All other trademarks are the property of their respective owners."</p>'
+    });
 
-    continent.done(function(continent) {
-        var startFloor = 'Surface';
-        var baseLayers = {};
-        var layerFix = {0: 'Underground', 1: 'Surface', 2: 'Upper Level', 3: 'Depths'};
-        [0,1,2,3].forEach(function(floor_id) {
-            baseLayers[layerFix[floor_id]] = L.tileLayer('https://tiles{s}.guildwars2.com/{continent}/{floor}/{z}/{x}/{y}.jpg', {
-                attribution: attribution,
-                minZoom: 2,
-                maxZoom: 7,
-                continuousWorld: true,
-                subdomains: [1, 2, 3, 4 ],
-                floor: floor_id,
-                continent: continent.id
-                //detectRetina: true
-            });
+    var continentsPromise = axios.get('https://api.guildwars2.com/v2/continents', {params: {ids: 'all'}}).then(x => x.data);
+    var falseMaps = Immutable.Set[589, 711, 807, 905, 1005];
+    var falseDungeons = Immutable.Set[1822, 1935, 1936, 1937, 1938];
+
+    var iconStyles = Immutable.Map({
+        'waypoint': {
+            src: 'https://render.guildwars2.com/file/32633AF8ADEA696A1EF56D3AE32D617B10D3AC57/157353.png',
+            scale: 1
+        },
+        'dungeon': {
+            src: 'https://render.guildwars2.com/file/943538394A94A491C8632FBEF6203C2013443555/102478.png',
+            scale: 1
+        },
+        'heart': {
+            src: 'https://render.guildwars2.com/file/09ACBA53B7412CC3C76E7FEF39929843C20CB0E4/102440.png',
+            scale: 1
+        },
+        'poi': {
+            src: 'https://render.guildwars2.com/file/25B230711176AB5728E86F5FC5F0BFAE48B32F6E/97461.png',
+            scale: 0.5
+        },
+        'heropoint': {
+            src: 'http://wiki.guildwars2.com/images/4/44/Hero_point.png',
+            scale: 1
+        },
+        'vista': {
+            src: 'http://wiki.guildwars2.com/images/d/d9/Vista.png',
+            scale: 1
+        }
+    }).map(function (value) {
+        return new ol.style.Style({
+            image: new ol.style.Icon(value)
         });
-        var overlayLayers = {};
-        overlayLayers['Regions'] = L.layerGroup();
-        overlayLayers['Zones'] = L.layerGroup();
-        overlayLayers['Sectors'] = L.layerGroup();
-        overlayLayers['Points of Interest'] = L.layerGroup();
-        overlayLayers['Hearts'] = L.layerGroup();
-        overlayLayers['Skill Challenges'] = L.layerGroup();
-        overlayLayers['Waypoints'] = L.layerGroup();
-        overlayLayers['Vistas'] = L.layerGroup();
-        overlayLayers['Dungeons'] = L.layerGroup();
+    });
 
-        var map = L.map('map', {
-            crs: L.CRS.Simple,
-            layers: [baseLayers[startFloor]]
-        });
+    var tileUrl = 'https://tiles{s}.guildwars2.com/1/1/{z}/{x}/{y}.jpg';
 
-        L.control.layers(baseLayers, overlayLayers).addTo(map);
-        var boundaries = new L.LatLngBounds(map.unproject([0, 32768], map.getMaxZoom()), map.unproject([32768, 0], map.getMaxZoom()));
-        map.setView(map.unproject([32768/2, 32768/2], map.getMaxZoom()), 3);
-        map.setMaxBounds(boundaries);
+    continentsPromise.then(function(continents) {
+        var floor = axios.get('https://api.guildwars2.com/v2/continents/1/floors/0').then(x => x.data);
 
-        //Draw Regions
-        files.done(function(files) {
-            var poiIcon = L.icon({
-                iconUrl: 'https://render.guildwars2.com/file/'+files.map_poi.signature+'/'+files.map_poi.file_id+'.png',
-                iconSize: [24, 24]
+        floor.then(function(floor) {
+            var tileSize = 256;
+            var projection = new ol.proj.Projection({
+                code: 'ZOOMIFY',
+                units: 'pixels',
+                extent: [0, 0, continents[0].continent_dims[0], continents[0].continent_dims[1]]
             });
-            var heartIcon = L.icon({
-                iconUrl: 'https://render.guildwars2.com/file/'+files.map_heart_full.signature+'/'+files.map_heart_full.file_id+'.png',
-                iconSize: [24, 24]
+            var projectionExtent = projection.getExtent();
+            var maxResolution = ol.extent.getWidth(projectionExtent) / tileSize;
+            var resolutions = [];
+            for(var z = 0; z <= 8; z++) {
+                resolutions[z] = maxResolution / Math.pow(2, z)
+            }
+
+            var map = new ol.Map({
+                target: "map",
+                layers : [
+                    new ol.layer.Tile({
+                        source: new ol.source.TileImage({
+                            attributions: [attribution],
+                            tileUrlFunction: function(tileCoord, pixelRatio, projection) {
+                                var xEven = tileCoord[1] % 2;
+                                var yEven = (-tileCoord[2] - 1) % 2;
+                                return tileUrl.replace('{s}', (2 * xEven + yEven + 1).toString())
+                                    .replace('{z}', tileCoord[0].toString())
+                                    .replace('{x}', tileCoord[1].toString())
+                                    .replace('{y}', (-tileCoord[2] - 1).toString());
+                            },
+                            projection: projection,
+                            tileGrid: new ol.tilegrid.TileGrid({
+                                origin: ol.extent.getTopLeft(projectionExtent),
+                                resolutions: resolutions,
+                                tileSize: tileSize
+                            })
+                        }),
+                        extent: projectionExtent
+                    })
+                ],
+                view: new ol.View({
+                    projection: projection,
+                    center: [16384, 16384],
+                    zoom: 2,
+                    minZoom: continents[0].min_zoom,
+                    maxZoom: continents[0].max_zoom,
+                    extent: projectionExtent
+                })
             });
-            var skillIcon = L.icon({
-                iconUrl: 'http://wiki.guildwars2.com/images/8/84/Skill_point.png',
-                iconSize: [24, 24]
-            });
-            var waypointIcon = L.icon({
-                iconUrl: 'https://render.guildwars2.com/file/'+files.map_waypoint.signature+'/'+files.map_waypoint.file_id+'.png',
-                iconSize: [24, 24]
-            });
-            var vistaIcon = L.icon({
-                iconUrl: 'http://wiki.guildwars2.com/images/d/d9/Vista.png',
-                iconSize: [24, 24]
-            });
-            var dungeonIcon = L.icon({
-                iconUrl: 'https://render.guildwars2.com/file/'+files.map_dungeon.signature+'/'+files.map_dungeon.file_id+'.png',
-                iconSize: [24, 24]
+
+            map.getView().on('change:resolution', function() {
+                console.log(map.getView().getResolution())
             });
 
-            var mapGradient = new Rainbow();
-            mapGradient.setSpectrum('00ff00', 'yellow', 'red');
+            function flipCoordinate(coord) {
+                return [coord[0], continents[0].continent_dims[1] - coord[1]]
+            }
 
-            floor.done(function(floors) {
-                $.each(floors.regions, function(id, region) {
-                    var icon = L.divIcon({html:region.name, iconSize: L.point(75, 10)});
-                    L.marker(map.unproject(region.label_coord, map.getMaxZoom()), {
-                        icon: icon
-                    }).addTo(overlayLayers['Regions']);
+            function getCenterOfRect(rect) {
+                return [
+                    (rect[0][0] + rect[1][0]) / 2,
+                    (rect[0][1] + rect[1][1]) / 2
+                ];
+            }
 
-                    $.each(region.maps, function(id, zone) {
-                        if(falseMaps.indexOf(parseInt(id)) === -1) {
-                            var xCoord = (zone.continent_rect[0][0]+zone.continent_rect[1][0]) / 2;
-                            var yCoord = (zone.continent_rect[0][1]+zone.continent_rect[1][1]) / 2;
-                            var mapText = zone.name + (zone.min_level === 0 ? '' : ' (' + zone.min_level + '-' + zone.max_level + ')');
-                            mapGradient.setNumberRange(0, 80);
-                            var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(zone.min_level == 0 ? 0 : (zone.max_level + zone.max_level) / 2) + ';">' + mapText + '</span>', iconSize: [(zone.min_level === 0 ? 75 : 125), 10]});
-                            L.marker(map.unproject([xCoord, yCoord], map.getMaxZoom()), {
-                                icon: icon
-                            }).addTo(overlayLayers['Zones']);
-
-                            $.each(zone.sectors, function(index, sector) {
-                                mapGradient.setNumberRange(zone.min_level == zone.max_level ? zone.min_level - 1 : zone.min_level, zone.max_level);
-                                var sectorText = sector.name + (sector.level === 0 ? '' : ' (' + sector.level + ')');
-                                var icon = L.divIcon({html: '<span style="color: #' + mapGradient.colorAt(sector.level) + ';">' + sectorText + '</span>', iconSize: L.point((zone.min_level === 0 ? 75 : 125), 10)});
-                                L.marker(map.unproject(sector.coord, map.getMaxZoom()), {
-                                    icon: icon
-                                }).addTo(overlayLayers['Sectors']);
-                            });
-
-                            $.each(zone.points_of_interest, function(index, point_of_interest) {
-                                if(falseDungeons.indexOf(point_of_interest.poi_id) === -1) {
-                                    var icon;
-                                    var addTo;
-                                    switch(point_of_interest.type) {
-                                        case 'waypoint':
-                                            icon = waypointIcon;
-                                            addTo = overlayLayers['Waypoints'];
-                                            break;
-                                        case 'vista':
-                                            icon = vistaIcon;
-                                            addTo = overlayLayers['Vistas'];
-                                            break;
-                                        case 'unlock':
-                                            icon = dungeonIcon;
-                                            addTo = overlayLayers['Dungeons'];
-                                            break;
-                                        case 'landmark':
-                                            icon = poiIcon;
-                                            addTo = overlayLayers['Points of Interest'];
-                                            break;
-                                        default:
-                                            icon = poiIcon;
-                                            addTo = overlayLayers['Points of Interest'];
-                                            break;
-                                    }
-                                    L.marker(map.unproject(point_of_interest.coord, map.getMaxZoom()), {
-                                        icon: icon
-                                    }).bindPopup(point_of_interest.name).addTo(addTo);
-                                }
-                            });
-
-                            $.each(zone.tasks, function(index, task) {
-                                L.marker(map.unproject(task.coord, map.getMaxZoom()), {
-                                    icon: heartIcon
-                                }).bindPopup(task.objective + ' (' + task.level + ')').addTo(overlayLayers['Hearts']);
-                            });
-
-                            $.each(zone.skill_challenges, function(index, skill_challenge) {
-                                L.marker(map.unproject(skill_challenge.coord, map.getMaxZoom()), {
-                                    icon: skillIcon
-                                }).addTo(overlayLayers['Skill Challenges']);
-                            });
-                        }
-                    });
+            var regionFeatures = Immutable.Map(floor.regions).map(function(region, regionId) {
+                return new ol.Feature({
+                    geometry: new ol.geom.Point(flipCoordinate(region.label_coord)),
+                    name: region.name
                 });
-                map.addLayer(overlayLayers['Zones']);
+            }).toList().flatten().toJS();
 
-                map.on('zoomend', function() {
-                    var zoom = map.getZoom();
-                    if(map.hasLayer(overlayLayers['Regions']) || map.hasLayer(overlayLayers['Zones']) || map.hasLayer(overlayLayers['Sectors'])) {
-                        if(zoom === 2) {
-                            map.addLayer(overlayLayers['Regions']);
-                            map.removeLayer(overlayLayers['Zones']);
-                            map.removeLayer(overlayLayers['Sectors']);
-                        } else if(zoom >= 3 && zoom <= 4) {
-                            map.removeLayer(overlayLayers['Regions']);
-                            map.addLayer(overlayLayers['Zones']);
-                            map.removeLayer(overlayLayers['Sectors']);
-                        } else if(zoom >= 5) {
-                            map.removeLayer(overlayLayers['Regions']);
-                            map.removeLayer(overlayLayers['Zones']);
-                            map.addLayer(overlayLayers['Sectors']);
-                        }
-                    }
-                });
+            var zoneFeatures = Immutable.Map(floor.regions).map(function(region) {
+                return Immutable.Map(region.maps).map(function(zone) {
+                    return new ol.Feature({
+                        geometry: new ol.geom.Point(flipCoordinate(getCenterOfRect(zone.continent_rect))),
+                        name: zone.name
+                    })
+                })
+            }).toList().flatten().toJS();
+
+            var regionLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: regionFeatures,
+                    wrapX: false
+                }),
+                extent: projectionExtent,
+                style: function(feature) {
+                    return [new ol.style.Style({
+                        text: new ol.style.Text({
+                            textAlign: "center",
+                            textBaseline: "middle",
+                            font: 'normal 0.8em sans-serif',
+                            text: feature.get('name'),
+                            fill: new ol.style.Fill({color: "#aa3300"}),
+                            stroke: new ol.style.Stroke({color: "#ffffff", width: 3}),
+                            offsetX: 0,
+                            offsetY: 0,
+                            rotation: 0
+                        })
+                    })]
+                },
+                // minResolution: 16
             });
-        });
+
+            var zoneLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: zoneFeatures,
+                    wrapX: false
+                }),
+                extent: projectionExtent,
+                style: function(feature) {
+                    return [new ol.style.Style({
+                        text: new ol.style.Text({
+                            textAlign: "center",
+                            textBaseline: "middle",
+                            font: 'normal 0.8em sans-serif',
+                            text: feature.get('name'),
+                            fill: new ol.style.Fill({color: "#aa3300"}),
+                            stroke: new ol.style.Stroke({color: "#ffffff", width: 3}),
+                            offsetX: 0,
+                            offsetY: 0,
+                            rotation: 0
+                        })
+                    })]
+                },
+                minResolution: 16
+            });
+
+            map.addLayer(regionLayer);
+            map.addLayer(zoneLayer)
+        }).catch(function(e, response) {
+            console.error(e)
+        })
+
+    }).catch(function(e, response) {
+        console.error(e)
     });
 })();
