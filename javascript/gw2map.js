@@ -10,9 +10,9 @@
             'tion. All other trademarks are the property of their respective owners."</p>'
     });
 
-    var continentsPromise = axios.get('https://api.guildwars2.com/v2/continents', {params: {ids: 'all'}}).then(x => x.data);
-    var falseMaps = Immutable.Set[589, 711, 807, 905, 1005];
-    var falseDungeons = Immutable.Set[1822, 1935, 1936, 1937, 1938];
+    var continentsPromise = axios.get('https://api.guildwars2.com/v2/continents', {params: {ids: 'all'}})
+        .then(x => x.data)
+        .then(Immutable.fromJS);
 
     var iconStyles = Immutable.Map({
         'waypoint': {
@@ -48,14 +48,16 @@
     var tileUrl = 'https://tiles{s}.guildwars2.com/1/1/{z}/{x}/{y}.jpg';
 
     continentsPromise.then(function(continents) {
-        var floor = axios.get('https://api.guildwars2.com/v2/continents/1/floors/0').then(x => x.data);
+        var floor = axios.get('https://api.guildwars2.com/v2/continents/1/floors/0')
+            .then(floorResponse => floorResponse.data)
+            .then(Immutable.fromJS)
 
         floor.then(function(floor) {
             var tileSize = 256;
             var projection = new ol.proj.Projection({
                 code: 'ZOOMIFY',
                 units: 'pixels',
-                extent: [0, 0, continents[0].continent_dims[0], continents[0].continent_dims[1]]
+                extent: [0, 0, continents.getIn([0, 'continent_dims', 0]), continents.getIn([0, 'continent_dims', 1])]
             });
             var projectionExtent = projection.getExtent();
             var maxResolution = ol.extent.getWidth(projectionExtent) / tileSize;
@@ -92,8 +94,8 @@
                     projection: projection,
                     center: [16384, 16384],
                     zoom: 2,
-                    minZoom: continents[0].min_zoom,
-                    maxZoom: continents[0].max_zoom,
+                    minZoom: continents.getIn([0, 'min_zoom']),
+                    maxZoom: continents.getIn([0, 'max_zoom']),
                     extent: projectionExtent
                 })
             });
@@ -103,35 +105,37 @@
             });
 
             function flipCoordinate(coord) {
-                return [coord[0], continents[0].continent_dims[1] - coord[1]]
+                return Immutable.List([coord.get(0), continents.getIn([0, 'continent_dims', 1]) - coord.get(1)]);
             }
 
             function getCenterOfRect(rect) {
-                return [
-                    (rect[0][0] + rect[1][0]) / 2,
-                    (rect[0][1] + rect[1][1]) / 2
-                ];
+                return Immutable.List([
+                    (rect.getIn([0, 0]) + rect.getIn([1, 0])) / 2,
+                    (rect.getIn([0, 1]) + rect.getIn([1, 1])) / 2
+                ]);
             }
 
-            var regionFeatures = Immutable.Map(floor.regions).map(function(region, regionId) {
+            var regions = Immutable.Map(floor.get('regions'));
+            var zones = regions.map(x=>x.get('maps'))
+                               .reduce((res, val)=>res.merge(val), Immutable.Map());
+
+            var regionFeatures = regions.map(function(region, regionId) {
                 return new ol.Feature({
-                    geometry: new ol.geom.Point(flipCoordinate(region.label_coord)),
+                    geometry: new ol.geom.Point(flipCoordinate(region.get('label_coord')).toJS()),
                     name: region.name
                 });
-            }).toList().flatten().toJS();
+            }).valueSeq();
 
-            var zoneFeatures = Immutable.Map(floor.regions).map(function(region) {
-                return Immutable.Map(region.maps).map(function(zone) {
-                    return new ol.Feature({
-                        geometry: new ol.geom.Point(flipCoordinate(getCenterOfRect(zone.continent_rect))),
-                        name: zone.name
-                    })
+            var zoneFeatures = zones.map(function(zone) {
+                return new ol.Feature({
+                    geometry: new ol.geom.Point(flipCoordinate(getCenterOfRect(zone.get('continent_rect'))).toJS()),
+                    name: zone.get('name')
                 })
-            }).toList().flatten().toJS();
+            }).valueSeq();
 
             var regionLayer = new ol.layer.Vector({
                 source: new ol.source.Vector({
-                    features: regionFeatures,
+                    features: regionFeatures.toJS(),
                     wrapX: false
                 }),
                 extent: projectionExtent,
@@ -142,8 +146,8 @@
                             textBaseline: "middle",
                             font: 'normal 0.8em sans-serif',
                             text: feature.get('name'),
-                            fill: new ol.style.Fill({color: "#aa3300"}),
-                            stroke: new ol.style.Stroke({color: "#ffffff", width: 3}),
+                            fill: new ol.style.Fill({color: "#ffffff"}),
+                            stroke: new ol.style.Stroke({color: "#000000", width: 2}),
                             offsetX: 0,
                             offsetY: 0,
                             rotation: 0
@@ -155,7 +159,7 @@
 
             var zoneLayer = new ol.layer.Vector({
                 source: new ol.source.Vector({
-                    features: zoneFeatures,
+                    features: zoneFeatures.toJS(),
                     wrapX: false
                 }),
                 extent: projectionExtent,
@@ -166,15 +170,15 @@
                             textBaseline: "middle",
                             font: 'normal 0.8em sans-serif',
                             text: feature.get('name'),
-                            fill: new ol.style.Fill({color: "#aa3300"}),
-                            stroke: new ol.style.Stroke({color: "#ffffff", width: 3}),
+                            fill: new ol.style.Fill({color: "#ffffff"}),
+                            stroke: new ol.style.Stroke({color: "#000000", width: 2}),
                             offsetX: 0,
                             offsetY: 0,
                             rotation: 0
                         })
                     })]
                 },
-                minResolution: 16
+                // minResolution: 16
             });
 
             map.addLayer(regionLayer);
