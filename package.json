@@ -4,5 +4,11 @@
     "version": "0.0.1",
     "description": "",
     "repository": "",
-    "license": ""
+    "license": "",
+    "devDependencies": {
+      "gulp": "*",
+      "gulp-sourcemaps": "*",
+      "gulp-babel": "*",
+      "gulp-concat": "*"
+    }
 }
