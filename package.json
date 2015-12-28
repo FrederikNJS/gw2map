@@ -9,6 +9,7 @@
       "gulp": "*",
       "gulp-sourcemaps": "*",
       "gulp-babel": "*",
-      "gulp-concat": "*"
+      "gulp-concat": "*",
+      "babel-preset-es2015": "*"
     }
 }

@@ -4,10 +4,10 @@ var babel = require("gulp-babel");
 var concat = require("gulp-concat");
 
 gulp.task("default", function () {
-  return gulp.src("src/**/*.js")
+  return gulp.src("javascript/**/*.js")
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(concat("all.js"))
     .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("dist"));
+    .pipe(gulp.dest("."));
 });
