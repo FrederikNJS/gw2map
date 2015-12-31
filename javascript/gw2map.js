@@ -159,7 +159,7 @@ continentsPromise.then(function(continents) {
         var regionFeatures = regions.map(function(region, regionId) {
             return new ol.Feature({
                 geometry: new ol.geom.Point(flipCoordinate(region.get('label_coord')).toJS()),
-                name: region.name
+                name: region.get('name')
             });
         }).valueSeq();
 
@@ -191,7 +191,7 @@ continentsPromise.then(function(continents) {
                     })
                 })]
             },
-            // minResolution: 16
+            minResolution: 16
         });
 
         var zoneLayer = new ol.layer.Vector({
@@ -207,7 +207,7 @@ continentsPromise.then(function(continents) {
                         textBaseline: "middle",
                         font: 'normal 0.8em sans-serif',
                         text: feature.get('name'),
-                        fill: new ol.style.Fill({color: "#ffffff"}),
+                        fill: new ol.style.Fill({color: "#ffff00"}),
                         stroke: new ol.style.Stroke({color: "#000000", width: 2}),
                         offsetX: 0,
                         offsetY: 0,
@@ -215,7 +215,8 @@ continentsPromise.then(function(continents) {
                     })
                 })]
             },
-            // minResolution: 16
+            minResolution: 4,
+            maxResolution: 32
         });
 
         map.addLayer(regionLayer);
