@@ -50,36 +50,18 @@ var continentsPromise = axios.get('https://api.guildwars2.com/v2/continents', {p
     .then(x => x.data)
     .then(Immutable.fromJS);
 
-var iconStyles = Immutable.Map({
-    'waypoint': {
-        src: 'https://render.guildwars2.com/file/32633AF8ADEA696A1EF56D3AE32D617B10D3AC57/157353.png',
-        scale: 1
-    },
-    'dungeon': {
-        src: 'https://render.guildwars2.com/file/943538394A94A491C8632FBEF6203C2013443555/102478.png',
-        scale: 1
-    },
-    'heart': {
-        src: 'https://render.guildwars2.com/file/09ACBA53B7412CC3C76E7FEF39929843C20CB0E4/102440.png',
-        scale: 1
-    },
-    'poi': {
-        src: 'https://render.guildwars2.com/file/25B230711176AB5728E86F5FC5F0BFAE48B32F6E/97461.png',
-        scale: 0.5
-    },
-    'heropoint': {
-        src: 'http://wiki.guildwars2.com/images/4/44/Hero_point.png',
-        scale: 1
-    },
-    'vista': {
-        src: 'http://wiki.guildwars2.com/images/d/d9/Vista.png',
-        scale: 1
+var iconPromise = axios.get('https://api.guildwars2.com/v2/files', {
+    params: {
+        ids: Immutable.List([
+            'map_waypoint',
+            'map_dungeon',
+            'map_heart_empty',
+            'map_poi',
+            'map_heropoint',
+            'map_vista'
+        ]).join(',')
     }
-}).map(function (value) {
-    return new ol.style.Style({
-        image: new ol.style.Icon(value)
-    });
-});
+}).then(x => x.data).then(Immutable.fromJS).then(x=>x.groupBy(y=>y.get('id')).map(x=>x.first().get('icon')));
 
 var tileUrl = 'https://tiles{s}.guildwars2.com/1/1/{z}/{x}/{y}.jpg';
 
