@@ -1,28 +1,31 @@
 {
-    "name": "gw2map",
-    "private": false,
-    "version": "0.0.1",
-    "description": "",
-    "repository": "",
-    "license": "",
+  "name": "gw2map",
+  "private": false,
+  "version": "0.0.1",
+  "description": "",
+  "repository": "",
+  "license": "",
+  "devDependencies": {
+    "jspm": "^0.16.19"
+  },
+  "jspm": {
+    "dependencies": {
+      "gradient": "npm:gradient@^0.2.0"
+    },
     "devDependencies": {
-        "jspm": "^0.16.19"
-    },
-    "jspm": {
-        "devDependencies": {
-            "babel": "npm:babel-core@^5.8.24",
-            "babel-runtime": "npm:babel-runtime@^5.8.24",
-            "core-js": "npm:core-js@^1.1.4"
-        }
-    },
-    "eslintConfig": {
-        "environment": {
-            "browser": true,
-            "es6": true
-        },
-        "ecmaFeatures": {
-            "blockBindings": true,
-            "arrowFunctions": true
-        }
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
     }
+  },
+  "eslintConfig": {
+    "environment": {
+      "browser": true,
+      "es6": true
+    },
+    "ecmaFeatures": {
+      "blockBindings": true,
+      "arrowFunctions": true
+    }
+  }
 }
