@@ -12,4 +12,4 @@ RUN npm install
 ADD . /code
 
 EXPOSE 8080
-CMD gulp && http-server
+CMD http-server
