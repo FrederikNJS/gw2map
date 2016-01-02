@@ -7,7 +7,9 @@ RUN mkdir /code
 WORKDIR /code
 
 ADD package.json /code/
+ADD config.js /code/
 RUN npm install
+RUN jspm install
 
 ADD . /code
 

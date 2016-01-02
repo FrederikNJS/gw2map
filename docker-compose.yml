@@ -4,4 +4,4 @@ server:
     - "8080:8080"
   volumes:
     - .:/code
-    - /code/node_modules
+    - /code/jspm_packages
