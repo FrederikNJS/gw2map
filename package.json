@@ -25,7 +25,9 @@
     },
     "ecmaFeatures": {
       "blockBindings": true,
-      "arrowFunctions": true
+      "arrowFunctions": true,
+      "classes": true,
+      "modules": true
     }
   }
 }

@@ -1,3 +1,5 @@
+import Floor from 'javascript/floor';
+
 var attribution = new ol.Attribution({
     html: '<p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as ' +
     'open source under <a href="http://frederikns.github.io/gw2map/LICENSE.txt">the AGPL 3.0 license.</a></p>' +
