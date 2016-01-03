@@ -10,6 +10,7 @@
   },
   "jspm": {
     "dependencies": {
+      "axios": "npm:axios@^0.8.1",
       "gradient": "npm:gradient@^0.2.0"
     },
     "devDependencies": {
