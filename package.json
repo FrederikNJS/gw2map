@@ -27,7 +27,8 @@
       "blockBindings": true,
       "arrowFunctions": true,
       "classes": true,
-      "modules": true
+      "modules": true,
+      "templateStrings": true
     }
   }
 }

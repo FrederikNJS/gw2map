@@ -1,5 +1,6 @@
 import Floor from 'javascript/floor'
 import Zone from 'javascript/zone'
+import { getContinents, getIcons, getFloor } from 'javascript/api'
 
 var attribution = new ol.Attribution({
   html: '<p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as ' +
@@ -11,31 +12,12 @@ var attribution = new ol.Attribution({
   'tion. All other trademarks are the property of their respective owners."</p>'
 });
 
-var continentsPromise = axios.get('https://api.guildwars2.com/v2/continents', {params: {ids: 'all'}})
-  .then(x => x.data)
-  .then(Immutable.fromJS);
-
-var iconPromise = axios.get('https://api.guildwars2.com/v2/files', {
-  params: {
-    ids: Immutable.List([
-      'map_waypoint',
-      'map_dungeon',
-      'map_heart_empty',
-      'map_poi',
-      'map_heropoint',
-      'map_vista'
-    ]).join(',')
-  }
-}).then(x => x.data).then(Immutable.fromJS).then(x=>x.groupBy(y=>y.get('id')).map(x=>x.first().get('icon')));
+var continentsPromise = getContinents()
 
 var tileUrl = 'https://tiles{s}.guildwars2.com/1/1/{z}/{x}/{y}.jpg';
 
 continentsPromise.then(function(continents) {
-  var floor = axios.get('https://api.guildwars2.com/v2/continents/1/floors/0')
-    .then(floorResponse => floorResponse.data)
-    .then(Immutable.fromJS)
-
-  floor.then(function(floor) {
+  getFloor(1, 0).then(function(floor) {
     var tileSize = 256;
     var projection = new ol.proj.Projection({
       code: 'ZOOMIFY',
