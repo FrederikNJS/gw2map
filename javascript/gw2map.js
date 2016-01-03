@@ -1,6 +1,7 @@
 import Floor from 'javascript/floor'
 import Zone from 'javascript/zone'
 import { getContinents, getIcons, getFloor } from 'javascript/api'
+import Immutable from 'immutable'
 
 var attribution = new ol.Attribution({
   html: '<p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as ' +

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Immutable from 'immutable'
 
 function postProcess(response) {
   return Immutable.fromJS(response.data)
