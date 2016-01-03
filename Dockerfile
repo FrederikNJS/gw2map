@@ -8,7 +8,10 @@ WORKDIR /code
 
 ADD package.json /code/
 ADD config.js /code/
+ADD .jspmgithubconfig /code/
+
 RUN npm install
+RUN ./.jspmgithubconfig
 RUN jspm install
 
 ADD . /code

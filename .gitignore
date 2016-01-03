@@ -1,6 +1,5 @@
-all.js
-all.js.map
 jspm_packages/
+.jspmgithubconfig
 
 # Created by http://www.gitignore.io
 
