@@ -7,11 +7,12 @@ RUN mkdir /code
 WORKDIR /code
 
 ADD package.json /code/
-ADD config.js /code/
-ADD .jspmgithubconfig /code/
-
 RUN npm install
+
+ADD .jspmgithubconfig /code/
 RUN ./.jspmgithubconfig
+
+ADD config.js /code/
 RUN jspm install
 
 ADD . /code
