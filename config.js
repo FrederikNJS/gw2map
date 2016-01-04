@@ -20,6 +20,7 @@ System.config({
     "core-js": "npm:core-js@1.2.6",
     "gradient": "npm:gradient@0.2.0",
     "immutable": "npm:immutable@3.7.6",
+    "openlayers": "https://cdnjs.cloudflare.com/ajax/libs/ol3/3.12.1/ol.min.js",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
