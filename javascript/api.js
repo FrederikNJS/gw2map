@@ -1,5 +1,7 @@
 import axios from 'axios'
 import Immutable from 'immutable'
+import Continent from 'javascript/continent'
+import Floor from 'javascript/floor'
 
 function postProcess(response) {
   return Immutable.fromJS(response.data)
@@ -7,12 +9,14 @@ function postProcess(response) {
 
 export function getContinents() {
   return axios.get('https://api.guildwars2.com/v2/continents', {params: {ids: 'all'}})
-    .then(postProcess);
+    .then(postProcess)
+    .then(rawContinents => rawContinents.map(continent => new Continent(continent)));
 }
 
 export function getFloor(continentId, floorId) {
   return axios.get(`https://api.guildwars2.com/v2/continents/${continentId}/floors/${floorId}`)
     .then(postProcess)
+    .then(x => new Floor(x))
 }
 
 export function getIcons() {

@@ -1,5 +1,6 @@
-import Rect from 'javascript/rect'
 import Immutable from 'immutable'
+import ol from 'openlayers'
+import Rect from 'javascript/rect'
 
 export default class Zone {
   constructor(mapDef) {
@@ -11,7 +12,14 @@ export default class Zone {
     this.continentRect = new Rect(mapDef.get('continent_rect'))
   }
 
-  static falseZones() {
+  getFeature() {
+    return new ol.Feature({
+      geometry: this.continentRect.getCenter().getOLPoint(),
+      name: this.name
+    })
+  }
+
+  static get falseZones() {
     return Immutable.Set([37, 55, 61, 77, 79, 80, 89, 92, 97, 110, 113, 120,
       138, 140, 142, 143, 144, 145, 147, 148, 149, 152, 153, 154, 157, 159, 161,
       162, 163, 171, 172, 178, 179, 180, 182, 184, 185, 186, 190, 191, 192, 193,

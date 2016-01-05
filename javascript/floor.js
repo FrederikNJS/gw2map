@@ -7,4 +7,8 @@ export default class Floor {
     this.regions = floorDef.get('regions').valueSeq().map(regionDef => new Region(regionDef))
     this.dimensions = new Coordinate(floorDef.get('texture_dims'))
   }
+
+  get zones() {
+    return this.regions.map(region => region.zones).flatten()
+  }
 }

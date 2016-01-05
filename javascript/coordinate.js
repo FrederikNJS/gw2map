@@ -1,6 +1,13 @@
+import ol from 'openlayers'
+import Immutable from 'immutable'
+
 export default class Coordinate {
   constructor(ary) {
-    this.x = ary[0]
-    this.y = ary[1]
+    this.x = ary.get(0)
+    this.y = ary.get(1)
+  }
+
+  getOLPoint() {
+    return new ol.geom.Point([this.x, 32768 - this.y])
   }
 }

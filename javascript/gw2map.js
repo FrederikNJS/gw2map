@@ -15,16 +15,17 @@ var attribution = new ol.Attribution({
 });
 
 var continentsPromise = getContinents()
+var floorPromise = getFloor(1, 0)
 
 var tileUrl = 'https://tiles{s}.guildwars2.com/1/1/{z}/{x}/{y}.jpg';
 
 continentsPromise.then(function(continents) {
-  getFloor(1, 0).then(function(floor) {
+  floorPromise.then(function(floor) {
     var tileSize = 256;
     var projection = new ol.proj.Projection({
       code: 'ZOOMIFY',
       units: 'pixels',
-      extent: [0, 0, continents.getIn([0, 'continent_dims', 0]), continents.getIn([0, 'continent_dims', 1])]
+      extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)]
     });
     var projectionExtent = projection.getExtent();
     var maxResolution = ol.extent.getWidth(projectionExtent) / tileSize;
@@ -71,35 +72,9 @@ continentsPromise.then(function(continents) {
       console.log(map.getView().getResolution())
     });
 
-    function flipCoordinate(coord) {
-      return Immutable.List([coord.get(0), continents.getIn([0, 'continent_dims', 1]) - coord.get(1)]);
-    }
-
-    function getCenterOfRect(rect) {
-      return Immutable.List([
-        (rect.getIn([0, 0]) + rect.getIn([1, 0])) / 2,
-        (rect.getIn([0, 1]) + rect.getIn([1, 1])) / 2
-      ]);
-    }
-
-    var regions = Immutable.Map(floor.get('regions'));
-    var zones = regions.map(x=>x.get('maps'))
-      .reduce((res, val)=>res.merge(val), Immutable.Map())
-      .filter(x=>!(Zone.falseZones().has(x.get('id'))));
-
-    var regionFeatures = regions.map(function(region, regionId) {
-      return new ol.Feature({
-        geometry: new ol.geom.Point(flipCoordinate(region.get('label_coord')).toJS()),
-        name: region.get('name')
-      });
-    }).valueSeq();
-
-    var zoneFeatures = zones.map(function(zone) {
-      return new ol.Feature({
-        geometry: new ol.geom.Point(flipCoordinate(getCenterOfRect(zone.get('continent_rect'))).toJS()),
-        name: zone.get('name')
-      })
-    }).valueSeq();
+    var regionFeatures = floor.regions.map(region => region.getFeature())
+    var zones = floor.zones.toList();
+    var zoneFeatures = floor.zones.map(zone => zone.getFeature());
 
     var regionLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
@@ -152,10 +127,5 @@ continentsPromise.then(function(continents) {
 
     map.addLayer(regionLayer);
     map.addLayer(zoneLayer)
-  }).catch(function(e, response) {
-    console.error(e)
   })
-
-}).catch(function(e, response) {
-  console.error(e)
-});
+})
