@@ -10,7 +10,7 @@ function postProcess(response) {
 export function getContinents() {
   return axios.get('https://api.guildwars2.com/v2/continents', {params: {ids: 'all'}})
     .then(postProcess)
-    .then(rawContinents => rawContinents.map(continent => new Continent(continent)));
+    .then(rawContinents => rawContinents.map(continent => new Continent(continent)))
 }
 
 export function getFloor(continentId, floorId) {

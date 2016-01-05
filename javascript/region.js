@@ -17,6 +17,6 @@ export default class Region {
     return new ol.Feature({
       geometry: this.labelCoordinate.olPoint,
       name: this.name
-    });
+    })
   }
 }
