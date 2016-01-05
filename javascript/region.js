@@ -13,9 +13,9 @@ export default class Region {
     return this._zones.filter(zone => !Zone.falseZones.has(zone.id))
   }
 
-  getFeature() {
+  get olFeature() {
     return new ol.Feature({
-      geometry: this.labelCoordinate.getOLPoint(),
+      geometry: this.labelCoordinate.olPoint,
       name: this.name
     });
   }

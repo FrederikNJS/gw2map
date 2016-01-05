@@ -72,9 +72,8 @@ continentsPromise.then(function(continents) {
       console.log(map.getView().getResolution())
     });
 
-    var regionFeatures = floor.regions.map(region => region.getFeature())
-    var zones = floor.zones.toList();
-    var zoneFeatures = floor.zones.map(zone => zone.getFeature());
+    var regionFeatures = floor.regions.map(region => region.olFeature)
+    var zoneFeatures = floor.zones.map(zone => zone.olFeature);
 
     var regionLayer = new ol.layer.Vector({
       source: new ol.source.Vector({

@@ -12,9 +12,9 @@ export default class Zone {
     this.continentRect = new Rect(mapDef.get('continent_rect'))
   }
 
-  getFeature() {
+  get olFeature() {
     return new ol.Feature({
-      geometry: this.continentRect.getCenter().getOLPoint(),
+      geometry: this.continentRect.center.olPoint,
       name: this.name
     })
   }

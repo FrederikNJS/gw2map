@@ -7,7 +7,7 @@ export default class Coordinate {
     this.y = ary.get(1)
   }
 
-  getOLPoint() {
+  get olPoint() {
     return new ol.geom.Point([this.x, 32768 - this.y])
   }
 }

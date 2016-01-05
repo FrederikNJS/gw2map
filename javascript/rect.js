@@ -7,7 +7,7 @@ export default class Rect {
     this.bottomRight = new Coordinate(ary.get(1))
   }
 
-  getCenter() {
+  get center() {
     return new Coordinate(Immutable.List([
       (this.topLeft.x + this.bottomRight.x) / 2,
       (this.topLeft.y + this.bottomRight.y) / 2
