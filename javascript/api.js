@@ -33,5 +33,5 @@ export function getIcons() {
     }
   }).then(postProcess)
     .then(x=>x.groupBy(y=>y.get('id'))
-    .map(x=>x.first().get('icon')));
+    .map(x=>x.first().get('icon')))
 }

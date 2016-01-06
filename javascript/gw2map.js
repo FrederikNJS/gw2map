@@ -4,7 +4,7 @@ import { getContinents, getIcons, getFloor } from 'javascript/api'
 import Immutable from 'immutable'
 import ol from 'openlayers'
 
-var attribution = new ol.Attribution({
+const attribution = new ol.Attribution({
   html: '<p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as ' +
   'open source under <a href="http://frederikns.github.io/gw2map/LICENSE.txt">the AGPL 3.0 license.</a></p>' +
   '<p>The graphical assets of the map and icons as well as the data is property of ArenaNet and subject to ' +
@@ -14,28 +14,28 @@ var attribution = new ol.Attribution({
   'tion. All other trademarks are the property of their respective owners."</p>'
 })
 
-var continentsPromise = getContinents()
-var floorPromise = getFloor(1, 0)
+const continentsPromise = getContinents()
+const floorPromise = getFloor(1, 0)
 
 continentsPromise.then(function(continents) {
-  var tileSize = 256
-  var projection = new ol.proj.Projection({
+  const tileSize = 256
+  const projection = new ol.proj.Projection({
     code: 'ZOOMIFY',
     units: 'pixels',
     extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)]
   })
-  var projectionExtent = projection.getExtent()
-  var maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
-  var resolutions = Immutable.Range(0, 8).map(x=>maxResolution / Math.pow(2, x)).toJS()
+  const projectionExtent = projection.getExtent()
+  const maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
+  const resolutions = Immutable.Range(0, 8).map(x=>maxResolution / Math.pow(2, x)).toJS()
 
-  var map = new ol.Map({
+  const map = new ol.Map({
     target: "map",
     layers : [
       new ol.layer.Tile({
         source: new ol.source.TileImage({
           attributions: [attribution],
           tileUrlFunction: function([z, x, y], pixelRatio, projection) {
-            var tileMirror = 2 * (x % 2) - (y % 2) + 1
+            const tileMirror = 2 * (x % 2) - (y % 2) + 1
             return `https://tiles${tileMirror}.guildwars2.com/1/1/${z}/${x}/${-y - 1}.jpg`
           },
           projection: projection,
@@ -59,10 +59,10 @@ continentsPromise.then(function(continents) {
   })
 
   floorPromise.then(function(floor) {
-    var regionFeatures = floor.regions.map(region => region.olFeature)
-    var zoneFeatures = floor.zones.map(zone => zone.olFeature)
+    const regionFeatures = floor.regions.map(region => region.olFeature)
+    const zoneFeatures = floor.zones.map(zone => zone.olFeature)
 
-    var regionLayer = new ol.layer.Vector({
+    const regionLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
         features: regionFeatures.toJS(),
         wrapX: false
@@ -86,7 +86,7 @@ continentsPromise.then(function(continents) {
       minResolution: 16
     })
 
-    var zoneLayer = new ol.layer.Vector({
+    const zoneLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
         features: zoneFeatures.toJS(),
         wrapX: false
