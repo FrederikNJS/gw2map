@@ -33,7 +33,8 @@
       "arrowFunctions": true,
       "classes": true,
       "modules": true,
-      "templateStrings": true
+      "templateStrings": true,
+      "destructuring": true
     }
   }
 }

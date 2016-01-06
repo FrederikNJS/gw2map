@@ -17,8 +17,6 @@ var attribution = new ol.Attribution({
 var continentsPromise = getContinents()
 var floorPromise = getFloor(1, 0)
 
-var tileUrl = 'https://tiles{s}.guildwars2.com/1/1/{z}/{x}/{y}.jpg'
-
 continentsPromise.then(function(continents) {
   var tileSize = 256
   var projection = new ol.proj.Projection({
@@ -36,13 +34,9 @@ continentsPromise.then(function(continents) {
       new ol.layer.Tile({
         source: new ol.source.TileImage({
           attributions: [attribution],
-          tileUrlFunction: function(tileCoord, pixelRatio, projection) {
-            var xEven = tileCoord[1] % 2
-            var yEven = (-tileCoord[2] - 1) % 2
-            return tileUrl.replace('{s}', (2 * xEven + yEven + 1).toString())
-            .replace('{z}', tileCoord[0].toString())
-            .replace('{x}', tileCoord[1].toString())
-            .replace('{y}', (-tileCoord[2] - 1).toString())
+          tileUrlFunction: function([z, x, y], pixelRatio, projection) {
+            var tileMirror = 2 * (x % 2) - (y % 2) + 1
+            return `https://tiles${tileMirror}.guildwars2.com/1/1/${z}/${x}/${-y - 1}.jpg`
           },
           projection: projection,
           tileGrid: new ol.tilegrid.TileGrid({
@@ -63,7 +57,7 @@ continentsPromise.then(function(continents) {
       extent: projectionExtent
     })
   })
-  
+
   floorPromise.then(function(floor) {
     var regionFeatures = floor.regions.map(region => region.olFeature)
     var zoneFeatures = floor.zones.map(zone => zone.olFeature)
