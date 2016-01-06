@@ -20,51 +20,51 @@ var floorPromise = getFloor(1, 0)
 var tileUrl = 'https://tiles{s}.guildwars2.com/1/1/{z}/{x}/{y}.jpg'
 
 continentsPromise.then(function(continents) {
-  floorPromise.then(function(floor) {
-    var tileSize = 256
-    var projection = new ol.proj.Projection({
-      code: 'ZOOMIFY',
-      units: 'pixels',
-      extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)]
-    })
-    var projectionExtent = projection.getExtent()
-    var maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
-    var resolutions = Immutable.Range(0, 8).map(x=>maxResolution / Math.pow(2, x)).toJS()
+  var tileSize = 256
+  var projection = new ol.proj.Projection({
+    code: 'ZOOMIFY',
+    units: 'pixels',
+    extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)]
+  })
+  var projectionExtent = projection.getExtent()
+  var maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
+  var resolutions = Immutable.Range(0, 8).map(x=>maxResolution / Math.pow(2, x)).toJS()
 
-    var map = new ol.Map({
-      target: "map",
-      layers : [
-        new ol.layer.Tile({
-          source: new ol.source.TileImage({
-            attributions: [attribution],
-            tileUrlFunction: function(tileCoord, pixelRatio, projection) {
-              var xEven = tileCoord[1] % 2
-              var yEven = (-tileCoord[2] - 1) % 2
-              return tileUrl.replace('{s}', (2 * xEven + yEven + 1).toString())
-              .replace('{z}', tileCoord[0].toString())
-              .replace('{x}', tileCoord[1].toString())
-              .replace('{y}', (-tileCoord[2] - 1).toString())
-            },
-            projection: projection,
-            tileGrid: new ol.tilegrid.TileGrid({
-              origin: ol.extent.getTopLeft(projectionExtent),
-              resolutions: resolutions,
-              tileSize: tileSize
-            })
-          }),
-          extent: projectionExtent
-        })
-      ],
-      view: new ol.View({
-        projection: projection,
-        center: [16384, 16384],
-        zoom: 2,
-        minZoom: continents.getIn([0, 'min_zoom']),
-        maxZoom: continents.getIn([0, 'max_zoom']),
+  var map = new ol.Map({
+    target: "map",
+    layers : [
+      new ol.layer.Tile({
+        source: new ol.source.TileImage({
+          attributions: [attribution],
+          tileUrlFunction: function(tileCoord, pixelRatio, projection) {
+            var xEven = tileCoord[1] % 2
+            var yEven = (-tileCoord[2] - 1) % 2
+            return tileUrl.replace('{s}', (2 * xEven + yEven + 1).toString())
+            .replace('{z}', tileCoord[0].toString())
+            .replace('{x}', tileCoord[1].toString())
+            .replace('{y}', (-tileCoord[2] - 1).toString())
+          },
+          projection: projection,
+          tileGrid: new ol.tilegrid.TileGrid({
+            origin: ol.extent.getTopLeft(projectionExtent),
+            resolutions: resolutions,
+            tileSize: tileSize
+          })
+        }),
         extent: projectionExtent
       })
+    ],
+    view: new ol.View({
+      projection: projection,
+      center: [16384, 16384],
+      zoom: 2,
+      minZoom: continents.getIn([0, 'min_zoom']),
+      maxZoom: continents.getIn([0, 'max_zoom']),
+      extent: projectionExtent
     })
-
+  })
+  
+  floorPromise.then(function(floor) {
     var regionFeatures = floor.regions.map(region => region.olFeature)
     var zoneFeatures = floor.zones.map(zone => zone.olFeature)
 
