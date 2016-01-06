@@ -65,10 +65,6 @@ continentsPromise.then(function(continents) {
       })
     })
 
-    map.getView().on('change:resolution', function() {
-      console.log(map.getView().getResolution())
-    })
-
     var regionFeatures = floor.regions.map(region => region.olFeature)
     var zoneFeatures = floor.zones.map(zone => zone.olFeature)
 
