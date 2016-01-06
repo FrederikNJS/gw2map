@@ -29,10 +29,7 @@ continentsPromise.then(function(continents) {
     })
     var projectionExtent = projection.getExtent()
     var maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
-    var resolutions = []
-    for(var z = 0; z <= 8; z++) {
-      resolutions[z] = maxResolution / Math.pow(2, z)
-    }
+    var resolutions = Immutable.Range(0, 8).map(x=>maxResolution / Math.pow(2, x)).toJS()
 
     var map = new ol.Map({
       target: "map",
