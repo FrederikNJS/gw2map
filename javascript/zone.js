@@ -14,10 +14,14 @@ export default class Zone {
     this.id = mapDef.get('id')
     this.defaultFloor = mapDef.get('default_floor')
     this.continentRect = new Rect(mapDef.get('continent_rect'))
-    this.pois = mapDef.get('points_of_interest').map(poi => new PointOfInterest(poi))
     this.sectors = mapDef.get('sectors').map(sector => new Sector(sector))
-    this.heroPoints = mapDef.get('skill_challenges').map(sc => new HeroPoint(sc))
     this.hearts = mapDef.get('tasks').map(task => new Heart(task))
+    this.heroPoints = mapDef.get('skill_challenges').map(sc => new HeroPoint(sc))
+    const pois = mapDef.get('points_of_interest').map(poi => new PointOfInterest(poi)).groupBy(poi => poi.type)
+    this.vistas = pois.get('vista')
+    this.waypoints = pois.get('waypoint')
+    this.pointsOfInterest = pois.get('landmark')
+    this.dungeons = pois.get('unlock')
   }
 
   get olFeature() {
