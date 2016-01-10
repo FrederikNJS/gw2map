@@ -59,8 +59,13 @@ continentsPromise.then(function(continents) {
   })
 
   floorPromise.then(function(floor) {
-    const regionFeatures = floor.regions.map(region => region.olFeature)
-    const zoneFeatures = floor.zones.map(zone => zone.olFeature)
+    const regions = floor.regions
+    const zones = regions.map(region => region.zones).flatten()
+    const sectors = zones.map(zone => zone.sectors).flatten()
+
+    const regionFeatures = regions.map(region => region.olFeature)
+    const zoneFeatures = zones.map(zone => zone.olFeature)
+    const sectorFeatures = sectors.map(sector => sector.olFeature)
 
     const regionLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
@@ -111,7 +116,33 @@ continentsPromise.then(function(continents) {
       maxResolution: 32
     })
 
+    const sectorLayer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: sectorFeatures.toJS(),
+        wrapX: false
+      }),
+      extent: projectionExtent,
+      style: function(feature) {
+        return [new ol.style.Style({
+          text: new ol.style.Text({
+            textAlign: "center",
+            textBaseline: "middle",
+            font: 'normal 0.8em sans-serif',
+            text: feature.get('name'),
+            fill: new ol.style.Fill({color: "#ffffff"}),
+            stroke: new ol.style.Stroke({color: "#000000", width: 2}),
+            offsetX: 0,
+            offsetY: 0,
+            rotation: 0
+          })
+        })]
+      },
+      minResolution: 1,
+      maxResolution: 8
+    })
+
     map.addLayer(regionLayer)
     map.addLayer(zoneLayer)
+    map.addLayer(sectorLayer)
   })
 })

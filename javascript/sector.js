@@ -8,4 +8,11 @@ export default class Sector {
     this.chatLink = sectorDef.get('chat_link')
     this.coordinate = new Coordinate(sectorDef.get('coord'))
   }
+
+  get olFeature() {
+    return new ol.Feature({
+      geometry: this.coordinate.olPoint,
+      name: `${this.name} (${this.level})`
+    })
+  }
 }
