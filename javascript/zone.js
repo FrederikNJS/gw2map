@@ -1,6 +1,10 @@
 import Immutable from 'immutable'
 import ol from 'openlayers'
 import Rect from 'javascript/rect'
+import Sector from 'javascript/sector'
+import HeroPoint from 'javascript/heroPoint'
+import Heart from 'javascript/heart'
+import PointOfInterest from 'javascript/pointOfInterest'
 
 export default class Zone {
   constructor(mapDef) {
@@ -10,6 +14,10 @@ export default class Zone {
     this.id = mapDef.get('id')
     this.defaultFloor = mapDef.get('default_floor')
     this.continentRect = new Rect(mapDef.get('continent_rect'))
+    this.pois = mapDef.get('points_of_interest').map(poi => new PointOfInterest(poi))
+    this.sectors = mapDef.get('sectors').map(sector => new Sector(sector))
+    this.heroPoints = mapDef.get('skill_challenges').map(sc => new HeroPoint(sc))
+    this.hearts = mapDef.get('tasks').map(task => new Heart(task))
   }
 
   get olFeature() {
