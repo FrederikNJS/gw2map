@@ -78,7 +78,7 @@ continentsPromise.then(function(continents) {
           text: new ol.style.Text({
             textAlign: "center",
             textBaseline: "middle",
-            font: 'normal 0.8em sans-serif',
+            font: 'bold 1em sans-serif',
             text: feature.get('name'),
             fill: new ol.style.Fill({color: "#ffffff"}),
             stroke: new ol.style.Stroke({color: "#000000", width: 2}),
@@ -102,9 +102,9 @@ continentsPromise.then(function(continents) {
           text: new ol.style.Text({
             textAlign: "center",
             textBaseline: "middle",
-            font: 'normal 0.8em sans-serif',
+            font: 'italic 1em sans-serif',
             text: feature.get('name'),
-            fill: new ol.style.Fill({color: "#ffff00"}),
+            fill: new ol.style.Fill({color: "#ffffff"}),
             stroke: new ol.style.Stroke({color: "#000000", width: 2}),
             offsetX: 0,
             offsetY: 0,
