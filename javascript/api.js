@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Immutable from 'immutable'
-import Continent from 'javascript/continent'
-import Floor from 'javascript/floor'
+import Continent from 'javascript/model/continent'
+import Floor from 'javascript/model/floor'
 
 function postProcess(response) {
   return Immutable.fromJS(response.data)
