@@ -23,7 +23,7 @@ export default class Zone {
   get olFeature() {
     return new ol.Feature({
       geometry: this.continentRect.center.olPoint,
-      name: this.name
+      name: `${this.name} (${this.minLevel}-${this.maxLevel})`
     })
   }
 
