@@ -5,6 +5,6 @@ export default class PointOfInterest {
     this.id = poiDef.get('id')
     this.type = poiDef.get('type')
     this.coordinate = new Coordinate(poiDef.get('coord'))
-    this.chatLink = new poiDef.get('chat_link')
+    this.chatLink = poiDef.get('chat_link')
   }
 }
