@@ -1,5 +1,5 @@
-import Region from "javascript/region"
-import Coordinate from "javascript/coordinate"
+import Region from "javascript/model/region"
+import Coordinate from "javascript/model/coordinate"
 
 export default class Floor {
   constructor(floorDef) {

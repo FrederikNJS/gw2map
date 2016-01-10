@@ -1,6 +1,6 @@
 import ol from 'openlayers'
-import Zone from 'javascript/zone'
-import Coordinate from 'javascript/coordinate'
+import Zone from 'javascript/model/zone'
+import Coordinate from 'javascript/model/coordinate'
 
 export default class Region {
   constructor(regionDef) {

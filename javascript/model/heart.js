@@ -1,4 +1,4 @@
-import Coordinate from 'javascript/coordinate'
+import Coordinate from 'javascript/model/coordinate'
 
 export default class Heart {
   constructor(taskDef) {

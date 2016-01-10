@@ -1,4 +1,4 @@
-import Floor from 'javascript/floor'
+import Floor from 'javascript/model/floor'
 
 export default class Continent {
   constructor(continentDef) {

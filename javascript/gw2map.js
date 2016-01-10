@@ -1,5 +1,5 @@
-import Floor from 'javascript/floor'
-import Zone from 'javascript/zone'
+import Floor from 'javascript/model/floor'
+import Zone from 'javascript/model/zone'
 import { getContinents, getIcons, getFloor } from 'javascript/api'
 import Immutable from 'immutable'
 import ol from 'openlayers'
