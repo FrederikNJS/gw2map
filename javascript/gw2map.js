@@ -141,8 +141,8 @@ continentsPromise.then(function(continents) {
       maxResolution: 8
     })
 
-    map.addLayer(regionLayer)
-    map.addLayer(zoneLayer)
     map.addLayer(sectorLayer)
+    map.addLayer(zoneLayer)
+    map.addLayer(regionLayer)
   })
 })
