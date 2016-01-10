@@ -24,10 +24,20 @@ export default class Zone {
     this.dungeons = pois.get('unlock')
   }
 
+  get displayName() {
+    if(this.minLevel === 0) {
+      return this.name
+    } else if (this.minLevel === this.maxLevel) {
+      return `${this.name} (${this.minLevel})`
+    } else {
+      return `${this.name} (${this.minLevel}-${this.maxLevel})`
+    }
+  }
+
   get olFeature() {
     return new ol.Feature({
       geometry: this.continentRect.center.olPoint,
-      name: this.minLevel === 0 ? this.name : `${this.name} (${this.minLevel}-${this.maxLevel})`
+      name: this.displayName
     })
   }
 
