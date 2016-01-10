@@ -12,7 +12,7 @@ export default class Sector {
   get olFeature() {
     return new ol.Feature({
       geometry: this.coordinate.olPoint,
-      name: `${this.name} (${this.level})`
+      name: this.level === 0 ? this.name : `${this.name} (${this.level})`
     })
   }
 }
