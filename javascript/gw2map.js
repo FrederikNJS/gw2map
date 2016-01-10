@@ -102,7 +102,7 @@ continentsPromise.then(function(continents) {
           text: new ol.style.Text({
             textAlign: "center",
             textBaseline: "middle",
-            font: 'italic 1em sans-serif',
+            font: 'italic 0.9em sans-serif',
             text: feature.get('name'),
             fill: new ol.style.Fill({color: "#ffffff"}),
             stroke: new ol.style.Stroke({color: "#000000", width: 2}),
