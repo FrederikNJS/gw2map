@@ -6,6 +6,7 @@ export default class PointOfInterest {
   constructor(poiDef, iconUrls) {
     this.id = poiDef.get('id')
     this.type = poiDef.get('type')
+    this.name = poiDef.get('name', null)
     this.coordinate = new Coordinate(poiDef.get('coord'))
     this.chatLink = poiDef.get('chat_link')
     this.iconUrls = iconUrls

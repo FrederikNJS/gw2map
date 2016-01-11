@@ -66,6 +66,8 @@ continentsPromise.then(function(continents) {
     const dungeons = zones.map(zone => zone.dungeons).flatten()
     const pointsOfInterest = zones.map(zone => zone.pointsOfInterest).flatten()
     const waypoints = zones.map(zone => zone.waypoints).flatten()
+    const hearts = zones.map(zone => zone.hearts).flatten()
+    const heroPoints = zones.map(zone => zone.heroPoints).flatten()
 
     const regionFeatures = regions.map(region => region.olFeature)
     const zoneFeatures = zones.map(zone => zone.olFeature)
@@ -74,6 +76,8 @@ continentsPromise.then(function(continents) {
     const dungeonFeatures = dungeons.map(dungeon => dungeon.olFeature)
     const pointOfInterestFeatures = pointsOfInterest.map(pointOfInterest => pointOfInterest.olFeature)
     const waypointFeatures = waypoints.map(waypoint => waypoint.olFeature)
+    const heartFeatures = hearts.map(heart => heart.olFeature)
+    const heroPointFeatures = heroPoints.map(heroPoint => heroPoint.olFeature)
 
     function featureSource(features) {
       return new ol.source.Vector({
@@ -122,10 +126,22 @@ continentsPromise.then(function(continents) {
       extent: projectionExtent
     })
 
+    const heartLayer = new ol.layer.Vector({
+      source: featureSource(heartFeatures),
+      extent: projectionExtent
+    })
+
+    const heroPointLayer = new ol.layer.Vector({
+      source: featureSource(heroPointFeatures),
+      extent: projectionExtent
+    })
+
+    map.addLayer(vistaLayer)
+    map.addLayer(dungeonLayer)
+    map.addLayer(heroPointLayer)
+    map.addLayer(heartLayer)
     map.addLayer(waypointLayer)
     map.addLayer(pointOfInterestLayer)
-    map.addLayer(dungeonLayer)
-    map.addLayer(vistaLayer)
     map.addLayer(sectorLayer)
     map.addLayer(zoneLayer)
     map.addLayer(regionLayer)
