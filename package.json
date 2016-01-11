@@ -11,8 +11,8 @@
   "jspm": {
     "dependencies": {
       "axios": "npm:axios@^0.8.1",
-      "gradient": "npm:gradient@^0.2.0",
-      "immutable": "npm:immutable@^3.7.6"
+      "immutable": "npm:immutable@^3.7.6",
+      "rainbow": "github:anomal/RainbowVis-JS@master"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",

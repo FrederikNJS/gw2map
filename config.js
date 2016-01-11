@@ -18,9 +18,9 @@ System.config({
     "babel": "npm:babel-core@5.8.34",
     "babel-runtime": "npm:babel-runtime@5.8.34",
     "core-js": "npm:core-js@1.2.6",
-    "gradient": "npm:gradient@0.2.0",
     "immutable": "npm:immutable@3.7.6",
     "openlayers": "https://cdnjs.cloudflare.com/ajax/libs/ol3/3.12.1/ol-debug.min.js",
+    "rainbow": "github:anomal/RainbowVis-JS@master",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -179,13 +179,6 @@ System.config({
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "string_decoder": "github:jspm/nodelibs-string_decoder@0.1.0"
     },
-    "npm:color-string@0.3.0": {
-      "color-name": "npm:color-name@1.1.1"
-    },
-    "npm:color@0.10.1": {
-      "color-convert": "npm:color-convert@0.5.3",
-      "color-string": "npm:color-string@0.3.0"
-    },
     "npm:constants-browserify@0.0.1": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
@@ -273,13 +266,6 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream-consume": "npm:stream-consume@0.1.0",
       "url": "github:jspm/nodelibs-url@0.1.0"
-    },
-    "npm:gradient@0.2.0": {
-      "color": "npm:color@0.10.1",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"
