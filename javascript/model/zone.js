@@ -34,6 +34,10 @@ export default class Zone {
     }
   }
 
+  get averageLevel() {
+    return (minLevel + maxLevel) / 2
+  }
+
   get olFeature() {
     return new ol.Feature({
       geometry: this.continentRect.center.olPoint,
