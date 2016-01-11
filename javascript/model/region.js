@@ -14,9 +14,19 @@ export default class Region {
   }
 
   get olFeature() {
-    return new ol.Feature({
-      geometry: this.labelCoordinate.olPoint,
-      name: this.name
+    const feature = new ol.Feature({
+      geometry: this.labelCoordinate.olPoint
     })
+    feature.setStyle(new ol.style.Style({
+      text: new ol.style.Text({
+        textAlign: "center",
+        textBaseline: "middle",
+        font: 'bold 1em sans-serif',
+        text: this.name,
+        fill: new ol.style.Fill({color: "#ffffff"}),
+        stroke: new ol.style.Stroke({color: "#000000", width: 2})
+      })
+    }))
+    return feature
   }
 }

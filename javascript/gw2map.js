@@ -77,42 +77,12 @@ continentsPromise.then(function(continents) {
     const regionLayer = new ol.layer.Vector({
       source: featureSource(regionFeatures),
       extent: projectionExtent,
-      style: function(feature) {
-        return [new ol.style.Style({
-          text: new ol.style.Text({
-            textAlign: "center",
-            textBaseline: "middle",
-            font: 'bold 1em sans-serif',
-            text: feature.get('name'),
-            fill: new ol.style.Fill({color: "#ffffff"}),
-            stroke: new ol.style.Stroke({color: "#000000", width: 2}),
-            offsetX: 0,
-            offsetY: 0,
-            rotation: 0
-          })
-        })]
-      },
       minResolution: 16
     })
 
     const zoneLayer = new ol.layer.Vector({
       source: featureSource(zoneFeatures),
       extent: projectionExtent,
-      style: function(feature) {
-        return [new ol.style.Style({
-          text: new ol.style.Text({
-            textAlign: "center",
-            textBaseline: "middle",
-            font: 'italic 0.9em sans-serif',
-            text: feature.get('name'),
-            fill: new ol.style.Fill({color: "#ffffff"}),
-            stroke: new ol.style.Stroke({color: "#000000", width: 2}),
-            offsetX: 0,
-            offsetY: 0,
-            rotation: 0
-          })
-        })]
-      },
       minResolution: 4,
       maxResolution: 32
     })
@@ -120,21 +90,6 @@ continentsPromise.then(function(continents) {
     const sectorLayer = new ol.layer.Vector({
       source: featureSource(sectorFeatures),
       extent: projectionExtent,
-      style: function(feature) {
-        return [new ol.style.Style({
-          text: new ol.style.Text({
-            textAlign: "center",
-            textBaseline: "middle",
-            font: 'normal 0.8em sans-serif',
-            text: feature.get('name'),
-            fill: new ol.style.Fill({color: "#ffffff"}),
-            stroke: new ol.style.Stroke({color: "#000000", width: 2}),
-            offsetX: 0,
-            offsetY: 0,
-            rotation: 0
-          })
-        })]
-      },
       minResolution: 1,
       maxResolution: 8
     })

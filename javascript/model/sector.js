@@ -9,10 +9,28 @@ export default class Sector {
     this.coordinate = new Coordinate(sectorDef.get('coord'))
   }
 
+  get displayName() {
+    if (this.level === 0) {
+      return this.name
+    } else {
+      return `${this.name} (${this.level})`
+    }
+  }
+
   get olFeature() {
-    return new ol.Feature({
-      geometry: this.coordinate.olPoint,
-      name: this.level === 0 ? this.name : `${this.name} (${this.level})`
+    const feature = new ol.Feature({
+      geometry: this.coordinate.olPoint
     })
+    feature.setStyle(new ol.style.Style({
+      text: new ol.style.Text({
+        textAlign: "center",
+        textBaseline: "middle",
+        font: 'normal 0.8em sans-serif',
+        text: this.displayName,
+        fill: new ol.style.Fill({color: "#ffffff"}),
+        stroke: new ol.style.Stroke({color: "#000000", width: 2})
+      })
+    }))
+    return feature
   }
 }
