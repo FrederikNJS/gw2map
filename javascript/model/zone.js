@@ -19,7 +19,7 @@ export default class Zone {
     this.id = mapDef.get('id')
     this.defaultFloor = mapDef.get('default_floor')
     this.continentRect = new Rect(mapDef.get('continent_rect'))
-    this.sectors = mapDef.get('sectors').map(sector => new Sector(sector))
+    this.sectors = mapDef.get('sectors').map(sector => new Sector(sector, this.minLevel, this.maxLevel))
     this.hearts = mapDef.get('tasks').map(task => new Heart(task))
     this.heroPoints = mapDef.get('skill_challenges').map(sc => new HeroPoint(sc))
     const pois = mapDef.get('points_of_interest').map(poi => new PointOfInterest(poi)).groupBy(poi => poi.type)
