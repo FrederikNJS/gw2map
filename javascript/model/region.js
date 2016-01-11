@@ -3,9 +3,9 @@ import Zone from 'javascript/model/zone'
 import Coordinate from 'javascript/model/coordinate'
 
 export default class Region {
-  constructor(regionDef) {
+  constructor(regionDef, iconUrls) {
     this.labelCoordinate = new Coordinate(regionDef.get('label_coord'))
-    this._zones = regionDef.get('maps').valueSeq().map(mapDef=>new Zone(mapDef))
+    this._zones = regionDef.get('maps').valueSeq().map(mapDef=>new Zone(mapDef, iconUrls))
     this.name = regionDef.get('name')
   }
 

@@ -14,24 +14,32 @@ export function getContinents() {
 }
 
 export function getFloor(continentId, floorId) {
-  return axios.get(`https://api.guildwars2.com/v2/continents/${continentId}/floors/${floorId}`)
+  const floorPromise = axios.get(`https://api.guildwars2.com/v2/continents/${continentId}/floors/${floorId}`)
     .then(postProcess)
-    .then(x => new Floor(x))
+  const iconPromise = getIcons()
+
+  return Promise.all([floorPromise, iconPromise]).then(function([floor, iconUrls]) {
+    return new Floor(floor, iconUrls)
+  })
 }
 
+let iconPromise
 export function getIcons() {
-  return axios.get('https://api.guildwars2.com/v2/files', {
-    params: {
-      ids: Immutable.List([
-        'map_waypoint',
-        'map_dungeon',
-        'map_heart_empty',
-        'map_poi',
-        'map_heropoint',
-        'map_vista'
-      ]).join(',')
-    }
-  }).then(postProcess)
-    .then(x=>x.groupBy(y=>y.get('id'))
-    .map(x=>x.first().get('icon')))
+  if(!iconPromise) {
+    iconPromise = axios.get('https://api.guildwars2.com/v2/files', {
+      params: {
+        ids: Immutable.List([
+          'map_waypoint',
+          'map_dungeon',
+          'map_heart_empty',
+          'map_poi',
+          'map_heropoint',
+          'map_vista'
+        ]).join(',')
+      }
+    }).then(postProcess)
+      .then(x=>x.groupBy(y=>y.get('id'))
+      .map(x=>x.first().get('icon')))
+  }
+  return iconPromise
 }

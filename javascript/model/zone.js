@@ -12,7 +12,7 @@ levelGradient.setSpectrum('limegreen', 'yellow', 'ff4444')
 levelGradient.setNumberRange(0, 80)
 
 export default class Zone {
-  constructor(mapDef) {
+  constructor(mapDef, iconUrls) {
     this.name = mapDef.get('name')
     this.minLevel = mapDef.get('min_level')
     this.maxLevel = mapDef.get('max_level')
@@ -22,11 +22,11 @@ export default class Zone {
     this.sectors = mapDef.get('sectors').map(sector => new Sector(sector, this.minLevel, this.maxLevel))
     this.hearts = mapDef.get('tasks').map(task => new Heart(task))
     this.heroPoints = mapDef.get('skill_challenges').map(sc => new HeroPoint(sc))
-    const pois = mapDef.get('points_of_interest').map(poi => new PointOfInterest(poi)).groupBy(poi => poi.type)
-    this.vistas = pois.get('vista')
-    this.waypoints = pois.get('waypoint')
-    this.pointsOfInterest = pois.get('landmark')
-    this.dungeons = pois.get('unlock')
+    const pois = mapDef.get('points_of_interest').valueSeq().map(poi => new PointOfInterest(poi, iconUrls)).groupBy(poi => poi.type)
+    this.vistas = pois.get('vista', new Immutable.List())
+    this.waypoints = pois.get('waypoint', new Immutable.List())
+    this.pointsOfInterest = pois.get('landmark', new Immutable.List())
+    this.dungeons = pois.get('unlock', new Immutable.List())
   }
 
   get displayName() {

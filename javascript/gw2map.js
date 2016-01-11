@@ -62,10 +62,18 @@ continentsPromise.then(function(continents) {
     const regions = floor.regions
     const zones = regions.map(region => region.zones).flatten()
     const sectors = zones.map(zone => zone.sectors).flatten()
+    const vistas = zones.map(zone => zone.vistas).flatten()
+    const dungeons = zones.map(zone => zone.dungeons).flatten()
+    const pointsOfInterest = zones.map(zone => zone.pointsOfInterest).flatten()
+    const waypoints = zones.map(zone => zone.waypoints).flatten()
 
     const regionFeatures = regions.map(region => region.olFeature)
     const zoneFeatures = zones.map(zone => zone.olFeature)
     const sectorFeatures = sectors.map(sector => sector.olFeature)
+    const vistaFeatures = vistas.map(vista => vista.olFeature)
+    const dungeonFeatures = dungeons.map(dungeon => dungeon.olFeature)
+    const pointOfInterestFeatures = pointsOfInterest.map(pointOfInterest => pointOfInterest.olFeature)
+    const waypointFeatures = waypoints.map(waypoint => waypoint.olFeature)
 
     function featureSource(features) {
       return new ol.source.Vector({
@@ -94,6 +102,30 @@ continentsPromise.then(function(continents) {
       maxResolution: 8
     })
 
+    const vistaLayer = new ol.layer.Vector({
+      source: featureSource(vistaFeatures),
+      extent: projectionExtent
+    })
+
+    const dungeonLayer = new ol.layer.Vector({
+      source: featureSource(dungeonFeatures),
+      extent: projectionExtent
+    })
+
+    const pointOfInterestLayer = new ol.layer.Vector({
+      source: featureSource(pointOfInterestFeatures),
+      extent: projectionExtent
+    })
+
+    const waypointLayer = new ol.layer.Vector({
+      source: featureSource(waypointFeatures),
+      extent: projectionExtent
+    })
+
+    map.addLayer(waypointLayer)
+    map.addLayer(pointOfInterestLayer)
+    map.addLayer(dungeonLayer)
+    map.addLayer(vistaLayer)
     map.addLayer(sectorLayer)
     map.addLayer(zoneLayer)
     map.addLayer(regionLayer)
