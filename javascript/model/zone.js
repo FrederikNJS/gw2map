@@ -1,10 +1,15 @@
 import Immutable from 'immutable'
 import ol from 'openlayers'
+import Rainbow from 'rainbow'
 import Rect from 'javascript/model/rect'
 import Sector from 'javascript/model/sector'
 import HeroPoint from 'javascript/model/heroPoint'
 import Heart from 'javascript/model/heart'
 import PointOfInterest from 'javascript/model/pointOfInterest'
+
+const levelGradient = new Rainbow()
+levelGradient.setSpectrum('limegreen', 'yellow', 'ff4444')
+levelGradient.setNumberRange(0, 80)
 
 export default class Zone {
   constructor(mapDef) {
@@ -35,7 +40,15 @@ export default class Zone {
   }
 
   get averageLevel() {
-    return (minLevel + maxLevel) / 2
+    return (this.minLevel + this.maxLevel) / 2
+  }
+
+  get labelColor() {
+    if(this.minLevel === 0) {
+      return `#${levelGradient.colourAt(this.minLevel)}`
+    } else {
+      return `#${levelGradient.colourAt(this.averageLevel)}`
+    }
   }
 
   get olFeature() {
@@ -48,7 +61,7 @@ export default class Zone {
         textBaseline: "middle",
         font: 'italic 0.9em sans-serif',
         text: this.displayName,
-        fill: new ol.style.Fill({color: "#ffffff"}),
+        fill: new ol.style.Fill({color: this.labelColor}),
         stroke: new ol.style.Stroke({color: "#000000", width: 2}),
       })
     }))
