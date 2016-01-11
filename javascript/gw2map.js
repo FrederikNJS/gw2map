@@ -67,11 +67,15 @@ continentsPromise.then(function(continents) {
     const zoneFeatures = zones.map(zone => zone.olFeature)
     const sectorFeatures = sectors.map(sector => sector.olFeature)
 
-    const regionLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: regionFeatures.toJS(),
+    function featureSource(features) {
+      return new ol.source.Vector({
+        features: features.toJS(),
         wrapX: false
-      }),
+      })
+    }
+
+    const regionLayer = new ol.layer.Vector({
+      source: featureSource(regionFeatures),
       extent: projectionExtent,
       style: function(feature) {
         return [new ol.style.Style({
@@ -92,10 +96,7 @@ continentsPromise.then(function(continents) {
     })
 
     const zoneLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: zoneFeatures.toJS(),
-        wrapX: false
-      }),
+      source: featureSource(zoneFeatures),
       extent: projectionExtent,
       style: function(feature) {
         return [new ol.style.Style({
@@ -117,10 +118,7 @@ continentsPromise.then(function(continents) {
     })
 
     const sectorLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: sectorFeatures.toJS(),
-        wrapX: false
-      }),
+      source: featureSource(sectorFeatures),
       extent: projectionExtent,
       style: function(feature) {
         return [new ol.style.Style({
