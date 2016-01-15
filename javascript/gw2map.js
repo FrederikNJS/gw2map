@@ -129,50 +129,71 @@ continentsPromise.then(function(continents) {
       maxResolution: 8,
     })
 
+    const labelLayers = new ol.layer.Group({
+      title: "Labels",
+      zIndex: 100,
+      layers: [
+        regionLayer,
+        zoneLayer,
+        sectorLayer,
+      ],
+    })
+
     const vistaLayer = new ol.layer.Vector({
       title: 'Vistas',
+      visible: false,
       source: featureSource(vistaFeatures),
       extent: projectionExtent,
     })
 
     const dungeonLayer = new ol.layer.Vector({
       title: 'Dungeons',
+      visible: false,
       source: featureSource(dungeonFeatures),
       extent: projectionExtent,
     })
 
     const pointOfInterestLayer = new ol.layer.Vector({
       title: 'Points of Interrest',
+      visible: false,
       source: featureSource(pointOfInterestFeatures),
       extent: projectionExtent,
     })
 
     const waypointLayer = new ol.layer.Vector({
       title: 'Waypoints',
+      visible: false,
       source: featureSource(waypointFeatures),
       extent: projectionExtent,
     })
 
     const heartLayer = new ol.layer.Vector({
       title: 'Hearts',
+      visible: false,
       source: featureSource(heartFeatures),
       extent: projectionExtent,
     })
 
     const heroPointLayer = new ol.layer.Vector({
       title: 'Hero Points',
+      visible: false,
       source: featureSource(heroPointFeatures),
       extent: projectionExtent,
     })
 
-    map.addLayer(vistaLayer)
-    map.addLayer(dungeonLayer)
-    map.addLayer(heroPointLayer)
-    map.addLayer(heartLayer)
-    map.addLayer(waypointLayer)
-    map.addLayer(pointOfInterestLayer)
-    map.addLayer(sectorLayer)
-    map.addLayer(zoneLayer)
-    map.addLayer(regionLayer)
+    const iconLayers = new ol.layer.Group( {
+      title: 'Icons',
+      layers: [
+        heroPointLayer,
+        heartLayer,
+        waypointLayer,
+        pointOfInterestLayer,
+        dungeonLayer,
+        vistaLayer,
+      ],
+    })
+
+    map.addLayer(iconLayers)
+    map.addLayer(labelLayers)
   })
 })
