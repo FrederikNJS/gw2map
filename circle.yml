@@ -1,6 +1,13 @@
+machine:
+  node:
+    version: 5.4.1
+
 dependencies:
-  pre:
+  cache_directories:
+    - "jspm_packages"
+    - "node_modules"
+  override:
     - npm install -g http-server jspm
-  post:
+    - npm isntall
     - jspm install
     - jspm bundle --inject --minify javascript/gw2map.js javascript/bundle.js
