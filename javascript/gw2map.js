@@ -127,7 +127,7 @@ continentsPromise.then(function(continents) {
     })
 
     const automaticMode = new ol.layer.Vector({
-      title: "Automatic",
+      title: '<b>Automatic</b>',
     })
 
     map.getView().on('change:resolution', function(event) {
