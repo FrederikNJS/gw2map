@@ -143,9 +143,9 @@ continentsPromise.then(function(continents) {
       title: "Labels",
       zIndex: 100,
       layers: [
-        regionLayer,
-        zoneLayer,
         sectorLayer,
+        zoneLayer,
+        regionLayer,
         automaticMode,
       ],
     })
@@ -195,12 +195,12 @@ continentsPromise.then(function(continents) {
     const iconLayers = new ol.layer.Group( {
       title: 'Icons',
       layers: [
+        dungeonLayer,
         heroPointLayer,
+        vistaLayer,
         heartLayer,
         waypointLayer,
         pointOfInterestLayer,
-        dungeonLayer,
-        vistaLayer,
       ],
     })
 
