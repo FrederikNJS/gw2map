@@ -31,26 +31,6 @@ continentsPromise.then(function(continents) {
 
   const map = new ol.Map({
     target: "map",
-    layers : [
-      new ol.layer.Tile({
-        title: 'Tyria',
-        type: 'base',
-        source: new ol.source.TileImage({
-          attributions: [attribution],
-          tileUrlFunction: function([z, x, y], pixelRatio, projection) {
-            const tileMirror = 2 * (x % 2) - (y % 2) + 1
-            return `https://tiles${tileMirror}.guildwars2.com/1/1/${z}/${x}/${-y - 1}.jpg`
-          },
-          projection: projection,
-          tileGrid: new ol.tilegrid.TileGrid({
-            origin: ol.extent.getTopLeft(projectionExtent),
-            resolutions: resolutions,
-            tileSize: tileSize,
-          }),
-        }),
-        extent: projectionExtent,
-      }),
-    ],
     view: new ol.View({
       projection: projection,
       center: [16384, 16384],
@@ -60,6 +40,40 @@ continentsPromise.then(function(continents) {
       extent: projectionExtent,
     }),
   })
+
+  const floorNames = Immutable.fromJS([
+    {id: 3, name: 'Depths'},
+    {id: 0, name: 'Undeground'},
+    {id: 1, name: 'Surface'},
+    {id: 2, name: 'Sky'},
+  ])
+
+  const floorLayersList = floorNames
+    .map(floorDef => new ol.layer.Tile({
+      title: `Tyria - Level ${floorDef.get('name')}`,
+      type: 'base',
+      source: new ol.source.TileImage({
+        attributions: [attribution],
+        tileUrlFunction: function([z, x, y], pixelRatio, projection) {
+          const tileMirror = 2 * (x % 2) - (y % 2) + 1
+          return `https://tiles${tileMirror}.guildwars2.com/1/${floorDef.get('id')}/${z}/${x}/${-y - 1}.jpg`
+        },
+        projection: projection,
+        tileGrid: new ol.tilegrid.TileGrid({
+          origin: ol.extent.getTopLeft(projectionExtent),
+          resolutions: resolutions,
+          tileSize: tileSize,
+        }),
+      }),
+      extent: projectionExtent,
+    })).toJS()
+
+  const baseLayers = new ol.layer.Group({
+    title: "Base",
+    layers: floorLayersList,
+  })
+
+  map.addLayer(baseLayers)
 
   const layerSwitcher = new ol.control.LayerSwitcher()
   map.addControl(layerSwitcher)
