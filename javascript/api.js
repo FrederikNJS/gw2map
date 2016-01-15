@@ -34,9 +34,9 @@ export function getIcons() {
           'map_heart_empty',
           'map_poi',
           'map_heropoint',
-          'map_vista'
-        ]).join(',')
-      }
+          'map_vista',
+        ]).join(','),
+      },
     }).then(postProcess)
       .then(x=>x.groupBy(y=>y.get('id'))
       .map(x=>x.first().get('icon')))

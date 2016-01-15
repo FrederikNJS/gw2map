@@ -53,7 +53,7 @@ export default class Zone {
 
   get olFeature() {
     const feature = new ol.Feature({
-      geometry: this.continentRect.center.olPoint
+      geometry: this.continentRect.center.olPoint,
     })
     feature.setStyle(new ol.style.Style({
         text: new ol.style.Text({
@@ -63,7 +63,7 @@ export default class Zone {
         text: this.displayName,
         fill: new ol.style.Fill({color: this.labelColor}),
         stroke: new ol.style.Stroke({color: "#000000", width: 2}),
-      })
+      }),
     }))
     return feature
   }

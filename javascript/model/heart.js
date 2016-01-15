@@ -12,12 +12,12 @@ export default class Heart {
 
   get olFeature() {
     const feature = new ol.Feature({
-      geometry: this.coordinate.olPoint
+      geometry: this.coordinate.olPoint,
     })
     feature.setStyle(new ol.style.Style({
       image: new ol.style.Icon({
-        src: this._iconUrl
-      })
+        src: this._iconUrl,
+      }),
     }))
     return feature
   }

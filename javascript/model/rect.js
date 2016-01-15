@@ -10,7 +10,7 @@ export default class Rect {
   get center() {
     return new Coordinate(Immutable.List([
       (this.topLeft.x + this.bottomRight.x) / 2,
-      (this.topLeft.y + this.bottomRight.y) / 2
+      (this.topLeft.y + this.bottomRight.y) / 2,
     ]))
   }
 }

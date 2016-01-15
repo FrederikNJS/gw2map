@@ -12,7 +12,7 @@ const attribution = new ol.Attribution({
   'the following copyright:</p><p>"© 2014 ArenaNet, LLC. All rights reserved. NCSOFT, the interlocking NC l' +
   'ogo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guil' +
   'd Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corpora' +
-  'tion. All other trademarks are the property of their respective owners."</p>'
+  'tion. All other trademarks are the property of their respective owners."</p>',
 })
 
 const continentsPromise = getContinents()
@@ -23,7 +23,7 @@ continentsPromise.then(function(continents) {
   const projection = new ol.proj.Projection({
     code: 'ZOOMIFY',
     units: 'pixels',
-    extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)]
+    extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)],
   })
   const projectionExtent = projection.getExtent()
   const maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
@@ -45,11 +45,11 @@ continentsPromise.then(function(continents) {
           tileGrid: new ol.tilegrid.TileGrid({
             origin: ol.extent.getTopLeft(projectionExtent),
             resolutions: resolutions,
-            tileSize: tileSize
-          })
+            tileSize: tileSize,
+          }),
         }),
-        extent: projectionExtent
-      })
+        extent: projectionExtent,
+      }),
     ],
     view: new ol.View({
       projection: projection,
@@ -57,8 +57,8 @@ continentsPromise.then(function(continents) {
       zoom: 2,
       minZoom: continents.getIn([0, 'min_zoom']),
       maxZoom: continents.getIn([0, 'max_zoom']),
-      extent: projectionExtent
-    })
+      extent: projectionExtent,
+    }),
   })
 
   const layerSwitcher = new ol.control.LayerSwitcher()
@@ -88,7 +88,7 @@ continentsPromise.then(function(continents) {
     function featureSource(features) {
       return new ol.source.Vector({
         features: features.toJS(),
-        wrapX: false
+        wrapX: false,
       })
     }
 
@@ -96,7 +96,7 @@ continentsPromise.then(function(continents) {
       title: 'Regions',
       source: featureSource(regionFeatures),
       extent: projectionExtent,
-      minResolution: 16
+      minResolution: 16,
     })
 
     const zoneLayer = new ol.layer.Vector({
@@ -104,7 +104,7 @@ continentsPromise.then(function(continents) {
       source: featureSource(zoneFeatures),
       extent: projectionExtent,
       minResolution: 4,
-      maxResolution: 32
+      maxResolution: 32,
     })
 
     const sectorLayer = new ol.layer.Vector({
@@ -112,42 +112,43 @@ continentsPromise.then(function(continents) {
       source: featureSource(sectorFeatures),
       extent: projectionExtent,
       minResolution: 1,
-      maxResolution: 8
+      maxResolution: 8,
     })
 
     const vistaLayer = new ol.layer.Vector({
+      title: 'Vistas',
       source: featureSource(vistaFeatures),
-      extent: projectionExtent
+      extent: projectionExtent,
     })
 
     const dungeonLayer = new ol.layer.Vector({
       title: 'Dungeons',
       source: featureSource(dungeonFeatures),
-      extent: projectionExtent
+      extent: projectionExtent,
     })
 
     const pointOfInterestLayer = new ol.layer.Vector({
       title: 'Points of Interrest',
       source: featureSource(pointOfInterestFeatures),
-      extent: projectionExtent
+      extent: projectionExtent,
     })
 
     const waypointLayer = new ol.layer.Vector({
       title: 'Waypoints',
       source: featureSource(waypointFeatures),
-      extent: projectionExtent
+      extent: projectionExtent,
     })
 
     const heartLayer = new ol.layer.Vector({
       title: 'Hearts',
       source: featureSource(heartFeatures),
-      extent: projectionExtent
+      extent: projectionExtent,
     })
 
     const heroPointLayer = new ol.layer.Vector({
       title: 'Hero Points',
       source: featureSource(heroPointFeatures),
-      extent: projectionExtent
+      extent: projectionExtent,
     })
 
     map.addLayer(vistaLayer)

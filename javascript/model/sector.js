@@ -33,7 +33,7 @@ export default class Sector {
 
   get olFeature() {
     const feature = new ol.Feature({
-      geometry: this.coordinate.olPoint
+      geometry: this.coordinate.olPoint,
     })
     feature.setStyle(new ol.style.Style({
       text: new ol.style.Text({
@@ -42,8 +42,8 @@ export default class Sector {
         font: 'normal 0.8em sans-serif',
         text: this.displayName,
         fill: new ol.style.Fill({color: this.labelColor}),
-        stroke: new ol.style.Stroke({color: "#000000", width: 2})
-      })
+        stroke: new ol.style.Stroke({color: "#000000", width: 2}),
+      }),
     }))
     return feature
   }
