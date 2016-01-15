@@ -3,6 +3,7 @@ import Zone from 'javascript/model/zone'
 import { getContinents, getIcons, getFloor } from 'javascript/api'
 import Immutable from 'immutable'
 import ol from 'openlayers'
+import LayerSwitcher from 'ol3-layerswitcher'
 
 const attribution = new ol.Attribution({
   html: '<p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as ' +
@@ -32,6 +33,8 @@ continentsPromise.then(function(continents) {
     target: "map",
     layers : [
       new ol.layer.Tile({
+        title: 'Tyria',
+        type: 'base',
         source: new ol.source.TileImage({
           attributions: [attribution],
           tileUrlFunction: function([z, x, y], pixelRatio, projection) {
@@ -57,6 +60,9 @@ continentsPromise.then(function(continents) {
       extent: projectionExtent
     })
   })
+
+  const layerSwitcher = new ol.control.LayerSwitcher()
+  map.addControl(layerSwitcher)
 
   floorPromise.then(function(floor) {
     const regions = floor.regions
@@ -87,12 +93,14 @@ continentsPromise.then(function(continents) {
     }
 
     const regionLayer = new ol.layer.Vector({
+      title: 'Regions',
       source: featureSource(regionFeatures),
       extent: projectionExtent,
       minResolution: 16
     })
 
     const zoneLayer = new ol.layer.Vector({
+      title: 'Zones',
       source: featureSource(zoneFeatures),
       extent: projectionExtent,
       minResolution: 4,
@@ -100,6 +108,7 @@ continentsPromise.then(function(continents) {
     })
 
     const sectorLayer = new ol.layer.Vector({
+      title: 'Sectors',
       source: featureSource(sectorFeatures),
       extent: projectionExtent,
       minResolution: 1,
@@ -112,26 +121,31 @@ continentsPromise.then(function(continents) {
     })
 
     const dungeonLayer = new ol.layer.Vector({
+      title: 'Dungeons',
       source: featureSource(dungeonFeatures),
       extent: projectionExtent
     })
 
     const pointOfInterestLayer = new ol.layer.Vector({
+      title: 'Points of Interrest',
       source: featureSource(pointOfInterestFeatures),
       extent: projectionExtent
     })
 
     const waypointLayer = new ol.layer.Vector({
+      title: 'Waypoints',
       source: featureSource(waypointFeatures),
       extent: projectionExtent
     })
 
     const heartLayer = new ol.layer.Vector({
+      title: 'Hearts',
       source: featureSource(heartFeatures),
       extent: projectionExtent
     })
 
     const heroPointLayer = new ol.layer.Vector({
+      title: 'Hero Points',
       source: featureSource(heroPointFeatures),
       extent: projectionExtent
     })

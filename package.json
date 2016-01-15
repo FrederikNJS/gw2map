@@ -1,18 +1,16 @@
 {
   "name": "gw2map",
-  "private": false,
   "version": "0.0.1",
   "description": "",
-  "repository": "",
-  "license": "",
   "devDependencies": {
-    "jspm": "^0.16.19"
+    "jspm": "^0.16.23"
   },
   "jspm": {
     "dependencies": {
       "axios": "npm:axios@^0.8.1",
       "immutable": "npm:immutable@^3.7.6",
-      "rainbow": "github:anomal/RainbowVis-JS@master"
+      "ol3-layerswitcher": "github:walkermatt/ol3-layerswitcher@^1.0.4",
+      "rainbowvis.js": "npm:rainbowvis.js@^1.0.1"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
