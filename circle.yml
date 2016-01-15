@@ -1,0 +1,6 @@
+dependencies:
+  pre:
+    - npm install -g http-server jspm
+  post:
+    - jspm install
+    - jspm bundle --inject --minify javascript/gw2map.js javascript/bundle.js
