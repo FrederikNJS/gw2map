@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 import ol from 'openlayers'
-import Rainbow from 'rainbow'
+import Rainbow from 'rainbowvis.js'
 import Rect from 'javascript/model/rect'
 import Sector from 'javascript/model/sector'
 import HeroPoint from 'javascript/model/heroPoint'

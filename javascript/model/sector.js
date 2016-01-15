@@ -1,4 +1,4 @@
-import Rainbow from 'rainbow'
+import Rainbow from 'rainbowvis.js'
 import Coordinate from 'javascript/model/coordinate'
 
 const zoneLevelGradient = new Rainbow()
