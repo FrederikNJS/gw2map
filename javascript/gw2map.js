@@ -110,23 +110,33 @@ continentsPromise.then(function(continents) {
       title: 'Regions',
       source: featureSource(regionFeatures),
       extent: projectionExtent,
-      minResolution: 16,
     })
 
     const zoneLayer = new ol.layer.Vector({
       title: 'Zones',
+      visible: false,
       source: featureSource(zoneFeatures),
       extent: projectionExtent,
-      minResolution: 4,
-      maxResolution: 32,
     })
 
     const sectorLayer = new ol.layer.Vector({
       title: 'Sectors',
+      visible: false,
       source: featureSource(sectorFeatures),
       extent: projectionExtent,
-      minResolution: 1,
-      maxResolution: 8,
+    })
+
+    const automaticMode = new ol.layer.Vector({
+      title: "Automatic",
+    })
+
+    map.getView().on('change:resolution', function(event) {
+      const newResolution = event.target.get(event.key)
+      if (automaticMode.getVisible()) {
+        regionLayer.setVisible(newResolution >= 16)
+        zoneLayer.setVisible(newResolution >= 4 && newResolution < 32)
+        sectorLayer.setVisible(newResolution >= 1 && newResolution < 8)
+      }
     })
 
     const labelLayers = new ol.layer.Group({
@@ -136,6 +146,7 @@ continentsPromise.then(function(continents) {
         regionLayer,
         zoneLayer,
         sectorLayer,
+        automaticMode,
       ],
     })
 
