@@ -6,3 +6,10 @@ server:
     - .:/code
     - /code/node_modules
     - /code/jspm_packages
+test:
+  build: .
+  volumes:
+    - .:/code
+    - /code/node_modules
+    - /code/jspm_packages
+  command: karma start
