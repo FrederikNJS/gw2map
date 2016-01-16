@@ -9,6 +9,8 @@ machine:
 
 checkout:
   post:
+    - git config --global user.name "CircleCI"
+    - git config --global user.email circleci@circleci.com
     - git merge -s ours gh-pages
     - git checkout gh-pages
     - git pull
@@ -27,7 +29,5 @@ deployment:
   gh-pages:
     branch: master
     commands:
-      - git config --global user.name "CircleCI"
-      - git config --global user.email circleci@circleci.com
       - git commit -m "Automated Build"
       - git push origin gh-pages
