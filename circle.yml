@@ -20,9 +20,13 @@ dependencies:
     - "node_modules"
   override:
     - npm install -g http-server jspm
-    - npm isntall
+    - npm install
     - jspm install
     - jspm bundle --inject --minify javascript/gw2map.js javascript/bundle.js
+
+test:
+  override:
+    - karma start karma.ci.conf.js
 
 deployment:
   gh-pages:

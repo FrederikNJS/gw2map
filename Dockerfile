@@ -1,7 +1,7 @@
 FROM node:5.3
 
 ENV NPM_CONFIG_LOGLEVEL warn
-RUN npm install -g http-server jspm
+RUN npm install -g http-server jspm karma-cli
 
 RUN mkdir /code
 WORKDIR /code

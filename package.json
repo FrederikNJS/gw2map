@@ -3,7 +3,15 @@
   "version": "0.0.1",
   "description": "",
   "devDependencies": {
-    "jspm": "^0.16.23"
+    "jasmine-core": "^2.4.1",
+    "jspm": "^0.16.23",
+    "karma": "^0.13.19",
+    "karma-jasmine": "^0.3.6",
+    "karma-jspm": "^2.0.2",
+    "karma-junit-reporter": "^0.3.8",
+    "karma-phantomjs-launcher": "^0.2.3",
+    "karma-phantomjs-shim": "^1.2.0",
+    "phantomjs": "^1.9.19"
   },
   "jspm": {
     "dependencies": {
