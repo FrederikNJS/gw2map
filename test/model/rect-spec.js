@@ -5,7 +5,7 @@ describe("A Rect", function() {
   const rawRect = Immutable.fromJS([[1, 2], [3, 4]])
   const rect = new Rect(rawRect)
 
-  it('should instantiate correctly', function() {
+  it('should have the corners with the right values', function() {
     expect(rect.topLeft.constructor.name).toEqual('Coordinate')
     expect(rect.bottomRight.constructor.name).toEqual('Coordinate')
 
