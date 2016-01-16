@@ -11,6 +11,7 @@ checkout:
   post:
     - git merge -s ours gh-pages
     - git checkout gh-pages
+    - git pull
 
 dependencies:
   cache_directories:
