@@ -7,3 +7,11 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+.layer-switcher button {
+  background-color: rgba(0,60,136,.5)
+}
+
+.layer-switcher button:hover {
+  background-color: rgba(0,60,136,.7)
+}
