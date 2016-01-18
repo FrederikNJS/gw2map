@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import Coordinate from 'javascript/model/coordinate'
 
-describe('A coordinate', function() {
+describe('A Coordinate', function() {
   const rawCoord = Immutable.fromJS([2, 5])
   const coord = new Coordinate(rawCoord)
 
