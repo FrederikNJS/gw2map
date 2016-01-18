@@ -1,12 +1,23 @@
-import Floor from 'javascript/model/floor'
+import Immutable from 'immutable'
+import Continent from 'javascript/model/continent'
 
-export default class Continent {
-  constructor(continentDef) {
-    this.id = continentDef.get('id')
-    this.name = continentDef.get('name')
-    this.dimensions = continentDef.get('continent_dims')
-    this.minZoom = continentDef.get('min_zoom')
-    this.maxZoom = continentDef.get('max_zoom')
-    this.floorIds = continentDef.get('floors')
-  }
-}
+describe('A Continent', function() {
+  const rawContinent = Immutable.fromJS({
+    id: 1,
+    name: "Continent Name",
+    continent_dims: [10, 15],
+    min_zoom: 2,
+    max_zoom: 3,
+    floors: [4, 5, 6],
+  })
+  const continent = new Continent(rawContinent)
+
+  it('should have the defined properties', function() {
+    expect(continent.id).toEqual(1)
+    expect(continent.name).toEqual("Continent Name")
+    expect(continent.dimensions).toEqual(Immutable.fromJS([10, 15]))
+    expect(continent.minZoom).toEqual(2)
+    expect(continent.maxZoom).toEqual(3)
+    expect(continent.floorIds).toEqual(Immutable.fromJS([4, 5, 6]))
+  })
+})
