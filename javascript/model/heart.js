@@ -13,6 +13,7 @@ export default class Heart {
   get olFeature() {
     const feature = new ol.Feature({
       geometry: this.coordinate.olPoint,
+      text: `${this.level} - ${this.objective}`,
     })
     feature.setStyle(new ol.style.Style({
       image: new ol.style.Icon({

@@ -5,6 +5,22 @@ import Immutable from 'immutable'
 import ol from 'openlayers'
 import LayerSwitcher from 'ol3-layerswitcher'
 
+var container = document.getElementById('popup')
+var content = document.getElementById('popup-content')
+
+function closePopup() {
+  overlay.setPosition(undefined)
+  return false
+}
+
+var overlay = new ol.Overlay({
+  element: container,
+  autoPan: true,
+  autoPanAnimation: {
+    duration: 250,
+  },
+})
+
 const attribution = new ol.Attribution({
   html: '<p><a href="https://github.com/FrederikNS/gw2map">The source code for this project</a> is released as ' +
   'open source under <a href="http://frederikns.github.io/gw2map/LICENSE.txt">the AGPL 3.0 license.</a></p>' +
@@ -31,6 +47,7 @@ continentsPromise.then(function(continents) {
 
   const map = new ol.Map({
     target: "map",
+    overlays: [overlay],
     view: new ol.View({
       projection: projection,
       center: [16384, 16384],
@@ -39,6 +56,19 @@ continentsPromise.then(function(continents) {
       maxZoom: continents.getIn([0, 'max_zoom']),
       extent: projectionExtent,
     }),
+  })
+
+  map.on('click', function(event) {
+    var feature = map.forEachFeatureAtPixel(event.pixel, function(feature) {
+      return feature
+    })
+
+    if (feature && feature.get('text')) {
+      content.textContent = feature.get('text')
+      overlay.setPosition(feature.get('geometry').getCoordinates())
+    } else {
+      closePopup()
+    }
   })
 
   const floorNames = Immutable.fromJS([
