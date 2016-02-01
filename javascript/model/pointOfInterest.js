@@ -36,6 +36,7 @@ export default class PointOfInterest {
   get olFeature() {
     const feature = new ol.Feature({
       geometry: this.coordinate.olPoint,
+      text: this.name,
     })
     feature.setStyle(new ol.style.Style({
       image: new ol.style.Icon({
