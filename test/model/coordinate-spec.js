@@ -3,7 +3,8 @@ import Coordinate from 'javascript/model/coordinate'
 
 describe('A Coordinate', function() {
   const rawCoord = Immutable.fromJS([2, 5])
-  const coord = new Coordinate(rawCoord)
+  const ol = {geom: {Point: jasmine.createSpy('Point')}}
+  const coord = new Coordinate(rawCoord, ol)
 
   it('should have the x and y coordinates', function() {
     expect(coord.x).toEqual(rawCoord.get(0))
@@ -11,7 +12,7 @@ describe('A Coordinate', function() {
   })
 
   it('should be able to output an olPoint', function() {
-    expect(coord.olPoint.getType()).toEqual('Point')
-    expect(coord.olPoint.getCoordinates()).toEqual([coord.x, 32768 - coord.y])
+    const point = coord.olPoint
+    expect(ol.geom.Point).toHaveBeenCalledWith([2, 32763])
   })
 })
