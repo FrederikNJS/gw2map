@@ -51,7 +51,7 @@ continentsPromise.then(function(continents) {
     view: new ol.View({
       projection: projection,
       center: [16384, 16384],
-      zoom: 2,
+      zoom: 3,
       minZoom: continents.getIn([0, 'min_zoom']),
       maxZoom: continents.getIn([0, 'max_zoom']),
       extent: projectionExtent,
