@@ -19,7 +19,7 @@ dependencies:
     - "jspm_packages"
     - "node_modules"
   override:
-    - npm install -g http-server jspm karma-cli
+    - npm install -g jspm karma-cli
     - npm install
     - jspm install
     - jspm bundle --inject --minify javascript/gw2map.js javascript/bundle.js
