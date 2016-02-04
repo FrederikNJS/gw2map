@@ -13,7 +13,7 @@ checkout:
     - git config --global user.email circleci@circleci.com
     - git merge -s ours -m "Automated Merge" origin/gh-pages
     - git checkout gh-pages
-    - git pull
+    - git pull -s theirs
 
 dependencies:
   cache_directories:
