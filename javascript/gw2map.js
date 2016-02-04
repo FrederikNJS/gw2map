@@ -144,7 +144,6 @@ continentsPromise.then(function(continents) {
 
     const zoneLayer = new ol.layer.Vector({
       title: 'Zones',
-      visible: false,
       source: featureSource(zoneFeatures),
       extent: projectionExtent,
     })
