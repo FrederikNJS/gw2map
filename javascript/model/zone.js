@@ -25,8 +25,8 @@ export default class Zone {
     const pois = mapDef.get('points_of_interest').valueSeq().map(poi => new PointOfInterest(poi, iconUrls)).groupBy(poi => poi.type)
     this.vistas = pois.get('vista', new Immutable.List())
     this.waypoints = pois.get('waypoint', new Immutable.List())
-    this.pointsOfInterest = pois.get('landmark', new Immutable.List())
-    this.dungeons = pois.get('unlock', new Immutable.List())
+    this.pointsOfInterest = pois.get('poi', new Immutable.List())
+    this.dungeons = pois.get('dungeon', new Immutable.List())
   }
 
   get displayName() {

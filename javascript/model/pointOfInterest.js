@@ -2,10 +2,20 @@ import Immutable from 'immutable'
 import {getIcons} from 'javascript/api'
 import Coordinate from 'javascript/model/coordinate'
 
+const typeMap = Immutable.Map({
+  'landmark': 'poi',
+  'unlock': 'dungeon',
+})
+
+const iconScales = Immutable.Map({
+  'poi': 0.75,
+  'waypoint': 0.5,
+})
+
 export default class PointOfInterest {
   constructor(poiDef, iconUrls) {
     this.id = poiDef.get('id')
-    this.type = poiDef.get('type')
+    this.type = typeMap.get(poiDef.get('type'), poiDef.get('type'))
     this.name = poiDef.get('name', null)
     this.coordinate = new Coordinate(poiDef.get('coord'))
     this.chatLink = poiDef.get('chat_link')
@@ -13,24 +23,11 @@ export default class PointOfInterest {
   }
 
   get _iconUrl() {
-    switch(this.type) {
-      case 'vista':
-        return this.iconUrls.get('map_vista')
-      case 'waypoint':
-        return this.iconUrls.get('map_waypoint')
-      case 'landmark':
-        return this.iconUrls.get('map_poi')
-      case 'unlock':
-        return this.iconUrls.get('map_dungeon')
-    }
+    return this.iconUrls.get(`map_${this.type}`)
   }
 
   get _iconScale() {
-    if(Immutable.Set(['waypoint', 'landmark']).has(this.type)) {
-      return 0.5
-    } else {
-      return 1
-    }
+    return iconScales.get(this.type, 1)
   }
 
   get olFeature() {
