@@ -11,9 +11,6 @@ checkout:
   post:
     - git config --global user.name "CircleCI"
     - git config --global user.email circleci@circleci.com
-    - git merge -s ours -m "Automated Merge" origin/gh-pages
-    - git checkout gh-pages
-    - git pull -s theirs
 
 dependencies:
   cache_directories:
@@ -33,5 +30,6 @@ deployment:
   gh-pages:
     branch: master
     commands:
+      - git checkout -B gh-pages
       - git commit -am "Automated Build"
-      - git push origin gh-pages
+      - git push --force origin gh-pages
