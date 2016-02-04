@@ -1,5 +1,3 @@
-import Floor from 'javascript/model/floor'
-
 export default class Continent {
   constructor(continentDef) {
     this.id = continentDef.get('id')
