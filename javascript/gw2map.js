@@ -73,14 +73,14 @@ continentsPromise.then(function(continents) {
 
   const floorNames = Immutable.fromJS([
     {id: 3, name: 'Depths'},
-    {id: 0, name: 'Undeground'},
+    {id: 0, name: 'Underground'},
     {id: 1, name: 'Surface'},
     {id: 2, name: 'Sky'},
   ])
 
   const floorLayersList = floorNames
     .map(floorDef => new ol.layer.Tile({
-      title: `Tyria - Level ${floorDef.get('name')}`,
+      title: `Tyria - ${floorDef.get('name')}`,
       type: 'base',
       source: new ol.source.TileImage({
         attributions: [attribution],
