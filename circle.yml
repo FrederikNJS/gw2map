@@ -32,5 +32,5 @@ deployment:
   gh-pages:
     branch: master
     commands:
-      - git commit -m "Automated Build"
+      - git commit -am "Automated Build"
       - git push origin gh-pages
