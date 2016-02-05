@@ -32,7 +32,7 @@ deployment:
     commands:
       - git checkout -B gh-pages
       - git add -A
-      - git add --force jspm_packages
       - git status
+      - git add --force jspm_packages
       - git commit -m "Automated Build"
       - git push --force origin gh-pages
