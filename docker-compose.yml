@@ -1,15 +1,22 @@
-server:
-  build: .
-  ports:
-    - "8080:8080"
-  volumes:
-    - .:/code
-    - /code/node_modules
-    - /code/jspm_packages
-test:
-  build: .
-  volumes:
-    - .:/code
-    - /code/node_modules
-    - /code/jspm_packages
-  command: karma start
+version: '2'
+services:
+  server:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/code
+      - node_modules:/code/node_modules
+      - jspm_packages:/code/jspm_packages
+  test:
+    build: .
+    volumes:
+      - .:/code
+      - node_modules:/code/node_modules
+      - jspm_packages:/code/jspm_packages
+    command: karma start
+volumes:
+  node_modules:
+    driver: local
+  jspm_packages:
+    driver: local
