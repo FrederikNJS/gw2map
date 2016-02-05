@@ -31,7 +31,8 @@ deployment:
     branch: master
     commands:
       - git checkout -B gh-pages
-      - git status
+      - git add -A
       - git add --force jspm_packages
+      - git status
       - git commit -m "Automated Build"
       - git push --force origin gh-pages
