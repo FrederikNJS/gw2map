@@ -1,22 +1,22 @@
 version: '2'
 services:
-  server:
+  gw2map:
     build: .
     ports:
       - "8080:8080"
     volumes:
       - .:/code
-      - node_modules:/code/node_modules
-      - jspm_packages:/code/jspm_packages
+      - /code/node_modules
+      - /code/jspm_packages
   test:
     build: .
     volumes:
       - .:/code
-      - node_modules:/code/node_modules
-      - jspm_packages:/code/jspm_packages
+      - /code/node_modules
+      - /code/jspm_packages
     command: karma start
-volumes:
-  node_modules:
-    driver: local
-  jspm_packages:
-    driver: local
+# volumes:
+#   node_modules:
+#     driver: local
+#   jspm_packages:
+#     driver: local
