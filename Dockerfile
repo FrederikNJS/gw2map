@@ -1,4 +1,4 @@
-FROM node:5.3
+FROM node:5.6
 
 ENV NPM_CONFIG_LOGLEVEL warn
 RUN npm install -g http-server jspm karma-cli
