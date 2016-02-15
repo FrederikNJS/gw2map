@@ -18,4 +18,4 @@ RUN jspm install
 ADD . /code
 
 EXPOSE 8080
-CMD http-server
+CMD ["http-server"]
