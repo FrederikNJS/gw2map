@@ -20,7 +20,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.34",
     "core-js": "npm:core-js@1.2.6",
     "immutable": "npm:immutable@3.7.6",
-    "ol3-layerswitcher": "github:walkermatt/ol3-layerswitcher@1.0.4",
+    "ol3-layerswitcher": "github:walkermatt/ol3-layerswitcher@1.1.0",
     "openlayers": "https://cdnjs.cloudflare.com/ajax/libs/ol3/3.12.1/ol-debug.min.js",
     "rainbowvis.js": "npm:rainbowvis.js@1.0.1",
     "github:jspm/nodelibs-assert@0.1.0": {

@@ -18,7 +18,7 @@
     "dependencies": {
       "axios": "npm:axios@^0.8.1",
       "immutable": "npm:immutable@^3.7.6",
-      "ol3-layerswitcher": "github:walkermatt/ol3-layerswitcher@^1.0.4",
+      "ol3-layerswither": "github:walkermatt/ol3-layerswitcher@^1.1.0",
       "rainbowvis.js": "npm:rainbowvis.js@^1.0.1"
     },
     "devDependencies": {
