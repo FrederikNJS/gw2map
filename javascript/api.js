@@ -1,20 +1,20 @@
-import axios from 'axios'
+import qwest from 'qwest'
 import Immutable from 'immutable'
 import Continent from 'javascript/model/continent'
 import Floor from 'javascript/model/floor'
 
-function postProcess(response) {
-  return Immutable.fromJS(response.data)
+function postProcess(xhr, response) {
+  return Immutable.fromJS(response)
 }
 
 export function getContinents() {
-  return axios.get('https://api.guildwars2.com/v2/continents', {params: {ids: 'all'}})
+  return qwest.get('https://api.guildwars2.com/v2/continents', {ids: 'all'}, {cache: true})
     .then(postProcess)
     .then(rawContinents => rawContinents.map(continent => new Continent(continent)))
 }
 
 export function getFloor(continentId, floorId) {
-  const floorPromise = axios.get(`https://api.guildwars2.com/v2/continents/${continentId}/floors/${floorId}`)
+  const floorPromise = qwest.get(`https://api.guildwars2.com/v2/continents/${continentId}/floors/${floorId}`, {}, {cache: true})
     .then(postProcess)
   const iconPromise = getIcons()
 
@@ -26,20 +26,20 @@ export function getFloor(continentId, floorId) {
 let iconPromise
 export function getIcons() {
   if(!iconPromise) {
-    iconPromise = axios.get('https://api.guildwars2.com/v2/files', {
-      params: {
-        ids: Immutable.List([
-          'map_waypoint',
-          'map_dungeon',
-          'map_heart_empty',
-          'map_poi',
-          'map_heropoint',
-          'map_vista',
-        ]).join(','),
-      },
+    iconPromise = qwest.get('https://api.guildwars2.com/v2/files', {
+      ids: Immutable.List([
+        'map_waypoint',
+        'map_dungeon',
+        'map_heart_empty',
+        'map_poi',
+        'map_heropoint',
+        'map_vista',
+      ]).join(','),
+    }, {
+      cache: true,
     }).then(postProcess)
       .then(x=>x.groupBy(y=>y.get('id'))
-      .map(x=>x.first().get('icon')))
+                .map(x=>x.first().get('icon')))
   }
   return iconPromise
 }
