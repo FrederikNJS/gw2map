@@ -17,6 +17,6 @@ describe('A Coordinate', function() {
 
   it('should be able to output an olPoint', function() {
     const point = coord.olPoint
-    expect(ol.geom.Point.calledWith([2, 32763])).to.be.ok //
+    expect(ol.geom.Point.calledWith([2, 32763])).to.be.true
   })
 })
