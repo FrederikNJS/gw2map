@@ -1,3 +1,6 @@
+import chai, { expect } from 'chai'
+import chaiImmutable from 'chai-immutable'
+chai.use(chaiImmutable)
 import Immutable from 'immutable'
 import Region from 'javascript/model/region'
 import Floor from 'javascript/model/floor'
@@ -14,9 +17,9 @@ describe('A Floor', function() {
   })
 
   it('should have the defined properties', function() {
-    expect(floor.id).toEqual(1)
-    expect(floor.regions.size).toEqual(0)
-    expect(floor.dimensions.x).toEqual(4)
-    expect(floor.dimensions.y).toEqual(5)
+    expect(floor.id).to.equal(1)
+    expect(floor.regions.size).to.equal(0)
+    expect(floor.dimensions.x).to.equal(4)
+    expect(floor.dimensions.y).to.equal(5)
   })
 })

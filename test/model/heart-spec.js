@@ -1,4 +1,8 @@
+import chai, { expect } from 'chai'
+import chaiImmutable from 'chai-immutable'
+chai.use(chaiImmutable)
 import Immutable from 'immutable'
+import ol from 'openlayers'
 import Heart from 'javascript/model/heart'
 
 describe('A Heart', function() {
@@ -15,17 +19,17 @@ describe('A Heart', function() {
   const heart = new Heart(rawHeart, iconUrls)
 
   it('should have the defined properties', function() {
-    expect(heart.id).toEqual(1)
-    expect(heart.level).toEqual(2)
-    expect(heart.chatLink).toEqual('[link]')
-    expect(heart.objective).toEqual('This is an objective')
-    expect(heart.coordinate.constructor.name).toEqual('Coordinate')
-    expect(heart.coordinate.x).toEqual(3)
-    expect(heart.coordinate.y).toEqual(4)
-    expect(heart._iconUrl).toEqual('Icon URL')
+    expect(heart.id).to.equal(1)
+    expect(heart.level).to.equal(2)
+    expect(heart.chatLink).to.equal('[link]')
+    expect(heart.objective).to.equal('This is an objective')
+    expect(heart.coordinate.constructor.name).to.equal('Coordinate')
+    expect(heart.coordinate.x).to.equal(3)
+    expect(heart.coordinate.y).to.equal(4)
+    expect(heart._iconUrl).to.equal('Icon URL')
   })
 
   it('should be able to return a openlayers feature', function() {
-    expect(typeof heart.olFeature).toEqual('object')
+    expect(heart.olFeature).to.be.instanceOf(ol.Feature)
   })
 })

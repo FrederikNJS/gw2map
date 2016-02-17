@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "description": "",
   "devDependencies": {
-    "jasmine-core": "^2.4.1",
     "jspm": "^0.16.23",
     "karma": "^0.13.19",
-    "karma-jasmine": "^0.3.6",
     "karma-jspm": "^2.0.2",
     "karma-junit-reporter": "^0.3.8",
+    "karma-mocha": "^0.2.2",
     "karma-mocha-reporter": "^1.1.5",
     "karma-phantomjs-launcher": "^1.0.0",
+    "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.4"
   },
   "jspm": {
@@ -23,7 +23,13 @@
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
+      "chai": "npm:chai@^3.5.0",
+      "chai-as-promised": "npm:chai-as-promised@^5.2.0",
+      "chai-immutable": "npm:chai-immutable@^1.5.3",
+      "core-js": "npm:core-js@^1.1.4",
+      "mocha": "npm:mocha@^2.4.5",
+      "sinon": "npm:sinon@^1.17.3",
+      "sinon-chai": "npm:sinon-chai@^2.8.0"
     }
   },
   "eslintConfig": {

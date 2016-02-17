@@ -16,12 +16,18 @@ System.config({
   map: {
     "babel": "npm:babel-core@5.8.34",
     "babel-runtime": "npm:babel-runtime@5.8.34",
+    "chai": "npm:chai@3.5.0",
+    "chai-as-promised": "npm:chai-as-promised@5.2.0",
+    "chai-immutable": "npm:chai-immutable@1.5.3",
     "core-js": "npm:core-js@1.2.6",
     "immutable": "npm:immutable@3.7.6",
+    "mocha": "npm:mocha@2.4.5",
     "ol3-layerswitcher": "github:walkermatt/ol3-layerswitcher@1.1.0",
     "openlayers": "https://cdnjs.cloudflare.com/ajax/libs/ol3/3.12.1/ol-debug.min.js",
     "qwest": "npm:qwest@4.0.0",
     "rainbowvis.js": "npm:rainbowvis.js@1.0.1",
+    "sinon": "npm:sinon@1.17.3",
+    "sinon-chai": "npm:sinon-chai@2.8.0",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },
@@ -128,6 +134,20 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:chai-as-promised@5.2.0": {
+      "chai": "npm:chai@3.5.0"
+    },
+    "npm:chai-immutable@1.5.3": {
+      "chai": "npm:chai@3.5.0"
+    },
+    "npm:chai@3.5.0": {
+      "assertion-error": "npm:assertion-error@1.0.1",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "deep-eql": "npm:deep-eql@0.1.3",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0",
+      "type-detect": "npm:type-detect@1.0.0"
+    },
     "npm:cipher-base@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "inherits": "npm:inherits@2.0.1",
@@ -180,6 +200,10 @@ System.config({
       "public-encrypt": "npm:public-encrypt@4.0.0",
       "randombytes": "npm:randombytes@2.0.2"
     },
+    "npm:deep-eql@0.1.3": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "type-detect": "npm:type-detect@0.1.1"
+    },
     "npm:des.js@1.0.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "inherits": "npm:inherits@2.0.1",
@@ -220,6 +244,9 @@ System.config({
       "brorand": "npm:brorand@1.0.5"
     },
     "npm:mocha@1.21.5": {
+      "css": "github:systemjs/plugin-css@0.1.20"
+    },
+    "npm:mocha@2.4.5": {
       "css": "github:systemjs/plugin-css@0.1.20"
     },
     "npm:parse-asn1@5.0.0": {
@@ -300,6 +327,10 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "inherits": "npm:inherits@2.0.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:sinon-chai@2.8.0": {
+      "chai": "npm:chai@3.5.0",
+      "sinon": "npm:sinon@1.17.3"
     },
     "npm:sinon@1.17.3": {
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",

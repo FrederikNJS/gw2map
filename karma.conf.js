@@ -1,6 +1,6 @@
 module.exports = function(config) {
   config.set({
-    frameworks: ['jspm', 'jasmine'],
+    frameworks: ['jspm', 'mocha'],
 
     jspm: {
       loadFiles: [
