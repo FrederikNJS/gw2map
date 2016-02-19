@@ -1,6 +1,5 @@
 import Immutable from 'immutable'
-import {getIcons} from 'javascript/api'
-import Coordinate from 'javascript/model/coordinate'
+import _Coordinate from 'javascript/model/coordinate'
 
 const typeMap = Immutable.Map({
   'landmark': 'poi',
@@ -13,17 +12,13 @@ const iconScales = Immutable.Map({
 })
 
 export default class PointOfInterest {
-  constructor(poiDef, iconUrls) {
+  constructor(poiDef, iconUrls, Coordinate=_Coordinate) {
     this.id = poiDef.get('id')
     this.type = typeMap.get(poiDef.get('type'), poiDef.get('type'))
     this.name = poiDef.get('name', null)
     this.coordinate = new Coordinate(poiDef.get('coord'))
     this.chatLink = poiDef.get('chat_link')
-    this.iconUrls = iconUrls
-  }
-
-  get _iconUrl() {
-    return this.iconUrls.get(`map_${this.type}`)
+    this.iconUrl = iconUrls.get(`map_${this.type}`)
   }
 
   get _iconScale() {
@@ -37,7 +32,7 @@ export default class PointOfInterest {
     })
     feature.setStyle(new ol.style.Style({
       image: new ol.style.Icon({
-        src: this._iconUrl,
+        src: this.iconUrl,
         scale: this._iconScale,
       }),
     }))
