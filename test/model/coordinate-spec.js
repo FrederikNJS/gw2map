@@ -1,7 +1,7 @@
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
 import sinon from 'sinon'
-// import sinonChai from 'sinon-chai'
-// chai.use(sinonChai)
+import sinonChai from 'sinon-chai'
+chai.use(sinonChai)
 import Immutable from 'immutable'
 import Coordinate from 'javascript/model/coordinate'
 
@@ -17,6 +17,6 @@ describe('A Coordinate', function() {
 
   it('should be able to output an olPoint', function() {
     const point = coord.olPoint
-    expect(ol.geom.Point.calledWith([2, 32763])).to.be.true
+    expect(ol.geom.Point).to.have.been.calledWith([2, 32763])
   })
 })
