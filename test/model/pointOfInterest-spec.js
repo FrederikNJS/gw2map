@@ -39,20 +39,29 @@ describe('A point of interest', function() {
       expect(coordinateSpy).to.have.been.calledWith(poiDef.get('coord'))
       expect(poi.chatLink).to.equal('[chatLink]')
       expect(poi.iconUrl).to.equal('waypointUrl')
+      expect(poi._iconScale).to.equal(0.5)
     })
 
     it('should get type poi if given type landmark', function() {
-      let landmarkDef = poiDef.set('type', 'landmark')
-      let poi = new PointOfInterest(landmarkDef, iconUrls, coordinateSpy)
+      const landmarkDef = poiDef.set('type', 'landmark')
+      const poi = new PointOfInterest(landmarkDef, iconUrls, coordinateSpy)
       expect(poi.type).to.equal('poi')
       expect(poi.iconUrl).to.equal('poiUrl')
+      expect(poi._iconScale).to.equal(0.75)
     })
 
     it('should get type dungeon if given type unlock', function() {
-      let unlockDef = poiDef.set('type', 'unlock')
-      let dungeon = new PointOfInterest(unlockDef, iconUrls, coordinateSpy)
+      const unlockDef = poiDef.set('type', 'unlock')
+      const dungeon = new PointOfInterest(unlockDef, iconUrls, coordinateSpy)
       expect(dungeon.type).to.equal('dungeon')
       expect(dungeon.iconUrl).to.equal('dungeonUrl')
+      expect(dungeon._iconScale).to.equal(1)
+    })
+  })
+
+  describe('#olFeature', function() {
+    it('should return an ol.Feature', function() {
+      expect(poi.olFeature).to.be.an.instanceOf(ol.Feature)
     })
   })
 })

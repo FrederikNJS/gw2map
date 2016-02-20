@@ -19,10 +19,7 @@ export default class PointOfInterest {
     this.coordinate = new Coordinate(poiDef.get('coord'))
     this.chatLink = poiDef.get('chat_link')
     this.iconUrl = iconUrls.get(`map_${this.type}`)
-  }
-
-  get _iconScale() {
-    return iconScales.get(this.type, 1)
+    this._iconScale = iconScales.get(this.type, 1)
   }
 
   get olFeature() {
