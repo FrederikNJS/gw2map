@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "devDependencies": {
+    "eslint": "^2.2.0",
     "jspm": "^0.16.23",
     "karma": "^0.13.19",
     "karma-jspm": "^2.0.2",
@@ -30,30 +31,6 @@
       "mocha": "npm:mocha@^2.4.5",
       "sinon": "npm:sinon@^1.17.3",
       "sinon-chai": "npm:sinon-chai@^2.8.0"
-    }
-  },
-  "eslintConfig": {
-    "environment": {
-      "browser": true,
-      "es6": true
-    },
-    "rules": {
-      "semi": [
-        1,
-        "never"
-      ],
-      "comma-dangle": [
-        1,
-        "always-multiline"
-      ]
-    },
-    "ecmaFeatures": {
-      "blockBindings": true,
-      "arrowFunctions": true,
-      "classes": true,
-      "modules": true,
-      "templateStrings": true,
-      "destructuring": true
     }
   }
 }
