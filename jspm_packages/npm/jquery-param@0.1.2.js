@@ -1,0 +1,1 @@
+module.exports = require("npm:jquery-param@0.1.2/jquery-param.js");

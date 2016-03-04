@@ -1,0 +1,1 @@
+module.exports = require("npm:chai-as-promised@5.2.0/lib/chai-as-promised.js");

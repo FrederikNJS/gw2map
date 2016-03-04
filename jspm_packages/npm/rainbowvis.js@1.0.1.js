@@ -1,0 +1,1 @@
+module.exports = require("npm:rainbowvis.js@1.0.1/rainbowvis.js");

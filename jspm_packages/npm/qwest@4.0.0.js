@@ -1,0 +1,1 @@
+module.exports = require("npm:qwest@4.0.0/src/qwest.js");

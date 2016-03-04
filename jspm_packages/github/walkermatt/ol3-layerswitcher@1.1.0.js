@@ -1,0 +1,1 @@
+module.exports = require("github:walkermatt/ol3-layerswitcher@1.1.0/src/ol3-layerswitcher.js");

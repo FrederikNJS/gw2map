@@ -1,0 +1,1 @@
+module.exports = require("npm:sinon-chai@2.8.0/lib/sinon-chai.js");
