@@ -39,7 +39,8 @@ continentsPromise.then(function(continents) {
   const projection = new ol.proj.Projection({
     code: 'ZOOMIFY',
     units: 'pixels',
-    extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)],
+    // extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)],
+    extent: [0, 0, 32768, 32768],
   })
   const projectionExtent = projection.getExtent()
   const maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
