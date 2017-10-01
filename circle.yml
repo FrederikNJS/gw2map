@@ -24,7 +24,8 @@ dependencies:
 
 test:
   override:
-    - karma start karma.ci.conf.js
+    - echo "No tests"
+#    - karma start karma.ci.conf.js
 
 deployment:
   gh-pages:
