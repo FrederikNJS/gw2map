@@ -40,7 +40,7 @@ continentsPromise.then(function(continents) {
     code: 'ZOOMIFY',
     units: 'pixels',
     // extent: [0, 0, continents.get(0).dimensions.get(0), continents.get(0).dimensions.get(1)],
-    extent: [0, 0, 32768, 32768],
+    extent: [0, 0, 49152, 49152],
   })
   const projectionExtent = projection.getExtent()
   const maxResolution = ol.extent.getWidth(projectionExtent) / tileSize
@@ -51,7 +51,7 @@ continentsPromise.then(function(continents) {
     overlays: [overlay],
     view: new ol.View({
       projection: projection,
-      center: [16384, 16384],
+      center: [24576, 24576],
       zoom: 3,
       minZoom: continents.getIn([0, 'min_zoom']),
       maxZoom: continents.getIn([0, 'max_zoom']),
